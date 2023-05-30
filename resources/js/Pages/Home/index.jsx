@@ -1,21 +1,25 @@
 import React, { useState } from "react";
-import { Head } from "@inertiajs/react";
 import Navbar from "@/Components/Navbar";
 import Card from "./Card";
+import { AnimatePresence, motion } from "framer-motion";
+import Layout from "@/Components/Layout";
 
 export default function index({ auth, data }) {
+    const [items, setItems] = useState(data);
     const [clicked, setClicked] = useState("");
     const clicking = (arg) => {
         setClicked(arg);
+        // filter by populer
+        if (arg === "all") return setItems(data);
+        setItems(data.filter((item) => item.category === arg));
     };
     return (
-        <>
-            <Head title="Home" />
+        <Layout title="Home">
             <Navbar auth={auth} />
             <div className="w-full h-full md:w-11/12 lg:w-10/12 mx-auto my-8">
                 {/* jumbotron */}
                 <div className="relative w-full h-full dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
-                    <div className="h-[5___0vh] rounded-xl overflow-hidden">
+                    <div className="h-[50vh] rounded-xl overflow-hidden">
                         <img
                             src="https://images.unsplash.com/photo-1593495603376-7ae2d9ec46f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
                             alt="jumbotron"
@@ -56,40 +60,61 @@ export default function index({ auth, data }) {
                 <div className="px-4 md:w-6/12 lg:w-4/12">
                     <div className="grid grid-cols-4 md:grid-col-6 gap-4">
                         <button
-                            onClick={() => clicking("populer")}
+                            onClick={() => clicking("all")}
                             className={`w-full h-full rounded-full border border-gray-300 py-[6px] ${
-                                clicked === "populer"
+                                clicked === "all"
                                     ? "bg-indigo-500 text-white"
                                     : "bg-gray-200/80 "
                             }`}
                         >
-                            Populer
+                            Semua
                         </button>
                         <button
-                            onClick={() => clicking("terdekat")}
+                            onClick={() => clicking("lapangan")}
                             className={`w-full h-full rounded-full border border-gray-300 py-[6px] ${
-                                clicked === "terdekat"
+                                clicked === "lapangan"
                                     ? "bg-indigo-500 text-white"
                                     : "bg-gray-200/80 "
                             }`}
                         >
-                            Terdekat
+                            Lapangan
+                        </button>
+                        <button
+                            onClick={() => clicking("hotel")}
+                            className={`w-full h-full rounded-full border border-gray-300 py-[6px] ${
+                                clicked === "hotel"
+                                    ? "bg-indigo-500 text-white"
+                                    : "bg-gray-200/80 "
+                            }`}
+                        >
+                            Hotel
                         </button>
                     </div>
                 </div>
             </div>
             <div className="w-full h-full md:w-11/12 lg:w-10/12 mx-auto my-4">
-                <div className="w-full h-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {data.map((item, index) => (
-                        <div
-                            key={index}
-                            className="w-full h-full flex justify-center items-center"
-                        >
-                            <Card key={index} data={item} />
-                        </div>
-                    ))}
-                </div>
+                <AnimatePresence layoutId>
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="w-full h-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+                    >
+                        {items.map((item, index) => (
+                            <motion.div
+                                key={item.id}
+                                layoutId={index}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="w-full h-full flex justify-center items-center"
+                            >
+                                <Card key={index} data={item} />
+                            </motion.div>
+                        ))}
+                    </motion.div>
+                </AnimatePresence>
             </div>
-        </>
+        </Layout>
     );
 }

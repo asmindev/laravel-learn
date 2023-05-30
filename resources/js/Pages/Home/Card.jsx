@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Card({ data: { title, price, location } }) {
+export default function Card({ data: { title, price, location, category } }) {
     return (
         <div className="w-full h-full p-3">
             <div className="rounded overflow-hidden h-72">
@@ -16,8 +16,7 @@ export default function Card({ data: { title, price, location } }) {
                         <h1 className="text-lg font-bold">{title}</h1>
                         <span className="text-sm text-gray-600">
                             <h1>
-                                {price}
-                                <strong>Jam</strong>
+                                {price}/<strong>Jam</strong>
                             </h1>
                         </span>
                     </div>

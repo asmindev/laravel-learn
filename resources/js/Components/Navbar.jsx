@@ -52,12 +52,9 @@ export default function Navbar({ auth }) {
                                 </svg>
                             </Link>
                         ) : (
-                            <div className="flex gap-2">
-                                <Link
-                                    className="relative text-gray-700 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-300"
-                                    href={route("login")}
-                                >
-                                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            <div className="flex gap-2 h-full items-center">
+                                <Link href={route("login")}>
+                                    <button className="border border-blue-500 text-blue-500 rounded-md px-4 py-2 transition duration-500 ease select-none hover:text-white hover:bg-blue-600 focus:outline-none focus:shadow-outline">
                                         Login
                                     </button>
                                 </Link>

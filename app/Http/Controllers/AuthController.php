@@ -45,7 +45,7 @@ class AuthController extends Controller
         $csrf_token = csrf_token();
         return Inertia::render('Auth/Register', ['token' => $csrf_token]);
     }
-    public function store (Request $request)
+    public function store(Request $request)
     {
 
         $validateData = $request->validate([
@@ -77,9 +77,5 @@ class AuthController extends Controller
         } else {
             return redirect()->route('register')->with('error', 'User created failed.');
         }
-
-        // $user = User::create($request->all());
-        return redirect()->route('login')->with('success', 'User created successfully.');
     }
-
 }

@@ -19,91 +19,114 @@ use Illuminate\Support\Facades\Route;
 // Route welcome
 Route::get('/', function () {
     $data = [
-[
-    "title" => "Malona",
-    "slug" => "malona",
-    "location" => "Kendari Permai",
-    "price" => "Rp. 220.000",
-    ],
-    [
-    "title" => "Mokodompit",
-    "slug" => "mokodompit",
-    "location" => "Universitas Halu Oleo",
-    "price" => "Rp. 1.000.000",
-    ],
-    [
-        "title" => "Hotel Kubra",
-        "slug" => "hotel-kubra",
-        "location" => "Kendari Permai",
-        "price" => "Rp. 220.000",
+        [
+            "id" => 1,
+            "title" => "Malona",
+            "slug" => "malona",
+            "location" => "Kendari Permai",
+            "price" => "Rp. 220.000",
+            "category" => "hotel"
         ],
         [
-        "title" => "Hotel Kita",
-        "slug" => "hotel-kita",
-        "location" => "Universitas Halu Oleo",
-        "price" => "Rp. 300.000",
+            "id" => 2,
+            "title" => "Mokodompit",
+            "slug" => "mokodompit",
+            "location" => "Universitas Halu Oleo",
+            "price" => "Rp. 1.000.000",
+            "category" => "hotel"
+
         ],
         [
+            "id" => 3,
+            "title" => "Hotel Kubra",
+            "slug" => "hotel-kubra",
+            "location" => "Kendari Permai",
+            "price" => "Rp. 220.000",
+            "category" => "lapangan"
+        ],
+        [
+            "id" => 4,
             "title" => "Hotel Kita",
             "slug" => "hotel-kita",
             "location" => "Universitas Halu Oleo",
             "price" => "Rp. 300.000",
-            ],
-            [
-                "title" => "Hotel Kita",
-                "slug" => "hotel-kita",
-                "location" => "Universitas Halu Oleo",
-                "price" => "Rp. 300.000",
-                ],
-                [
-                    "title" => "Hotel Kita",
-                    "slug" => "hotel-kita",
-                    "location" => "Universitas Halu Oleo",
-                    "price" => "Rp. 300.000",
-                    ],
-                    [
-                        "title" => "Hotel Kita",
-                        "slug" => "hotel-kita",
-                        "location" => "Universitas Halu Oleo",
-                        "price" => "Rp. 300.000",
-                        ],
-                        [
-                            "title" => "Hotel Kita",
-                            "slug" => "hotel-kita",
-                            "location" => "Universitas Halu Oleo",
-                            "price" => "Rp. 300.000",
-                            ],
-                            [
-                                "title" => "Hotel Kita",
-                                "slug" => "hotel-kita",
-                                "location" => "Universitas Halu Oleo",
-                                "price" => "Rp. 300.000",
-                                ],
-                                [
-                                    "title" => "Hotel Kita",
-                                    "slug" => "hotel-kita",
-                                    "location" => "Universitas Halu Oleo",
-                                    "price" => "Rp. 300.000",
-                                    ],
-                                    [
-                                        "title" => "Hotel Kita",
-                                        "slug" => "hotel-kita",
-                                        "location" => "Universitas Halu Oleo",
-                                        "price" => "Rp. 300.000",
-                                        ],
-                                        [
-                                            "title" => "Hotel Kita",
-                                            "slug" => "hotel-kita",
-                                            "location" => "Universitas Halu Oleo",
-                                            "price" => "Rp. 300.000",
-                                            ],
-                                            [
-                                                "title" => "Hotel Kita",
-                                                "slug" => "hotel-kita",
-                                                "location" => "Universitas Halu Oleo",
-                                                "price" => "Rp. 300.000",
-                                            ]
-        ];
+            "category" => "hotel"
+        ],
+        [
+            "id" => 5,
+            "title" => "Hotel Kita",
+            "slug" => "hotel-kita",
+            "location" => "Universitas Halu Oleo",
+            "price" => "Rp. 300.000",
+            "category" => "lapangan"
+        ],
+        [
+            "id" => 6,
+            "title" => "Hotel Kita",
+            "slug" => "hotel-kita",
+            "location" => "Universitas Halu Oleo",
+            "price" => "Rp. 300.000",
+            "category" => "lapangan"
+        ],
+        [
+            "id" => 7,
+            "title" => "Hotel Kita",
+            "slug" => "hotel-kita",
+            "location" => "Universitas Halu Oleo",
+            "price" => "Rp. 300.000",
+        ],
+        [
+            "id" => 8,
+            "title" => "Hotel Kita",
+            "slug" => "hotel-kita",
+            "location" => "Universitas Halu Oleo",
+            "price" => "Rp. 300.000",
+        ],
+        [
+            "id" => 9,
+            "title" => "Hotel Kita",
+            "slug" => "hotel-kita",
+            "location" => "Universitas Halu Oleo",
+            "price" => "Rp. 300.000",
+        ],
+        [
+            "id" => 10,
+            "title" => "Hotel Kita",
+            "slug" => "hotel-kita",
+            "location" => "Universitas Halu Oleo",
+            "price" => "Rp. 300.000",
+        ],
+        [
+            "id" => 11,
+            "title" => "Hotel Kita",
+            "slug" => "hotel-kita",
+            "location" => "Universitas Halu Oleo",
+            "price" => "Rp. 300.000",
+        ],
+        [
+            "id" => 12,
+            "title" => "Hotel Kita",
+            "slug" => "hotel-kita",
+            "location" => "Universitas Halu Oleo",
+            "price" => "Rp. 300.000",
+        ],
+        [
+            "id" => 13,
+            "title" => "Hotel Kita",
+            "slug" => "hotel-kita",
+            "location" => "Universitas Halu Oleo",
+            "price" => "Rp. 300.000",
+            "category" => "lapangan"
+        ],
+        [
+            "id" => 14,
+            "title" => "Hotel Kita",
+            "slug" => "hotel-kita",
+            "location" => "Universitas Halu Oleo",
+            "price" => "Rp. 300.000",
+            "category" => "lapangan"
+        ]
+    ];
     return Inertia::render('Home/index', [
         'data' => $data
     ]);
