@@ -5,13 +5,15 @@ import { AnimatePresence, motion } from "framer-motion";
 import Layout from "@/Components/Layout";
 
 export default function index({ auth, data }) {
+    const category = [...new Set(data.map((item) => item.venue_category.slug))];
     const [items, setItems] = useState(data);
     const [clicked, setClicked] = useState("");
     const clicking = (arg) => {
         setClicked(arg);
         // filter by populer
         if (arg === "all") return setItems(data);
-        setItems(data.filter((item) => item.category === arg));
+        const res = data.filter((item) => item.venue_category.slug === arg);
+        setItems(res);
     };
     return (
         <Layout title="Home">
@@ -80,19 +82,19 @@ export default function index({ auth, data }) {
                             Lapangan
                         </button>
                         <button
-                            onClick={() => clicking("hotel")}
+                            onClick={() => clicking("gedung")}
                             className={`w-full h-full rounded-full border border-gray-300 py-[6px] ${
-                                clicked === "hotel"
+                                clicked === "gedung"
                                     ? "bg-indigo-500 text-white"
                                     : "bg-gray-200/80 "
                             }`}
                         >
-                            Hotel
+                            Gedung
                         </button>
                     </div>
                 </div>
             </div>
-            <div className="w-full h-full md:w-11/12 lg:w-10/12 mx-auto my-4">
+            <div className="w-full h-full md:w-11/12 lg:w-10/12 mx-auto my-4 px-8">
                 <AnimatePresence layoutId>
                     <motion.div
                         initial={{ opacity: 0 }}

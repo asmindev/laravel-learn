@@ -2,40 +2,40 @@ import React from "react";
 import { Link } from "@inertiajs/react";
 
 export default function Navbar({ auth }) {
-    console.log(auth);
+    console.log("from navbar", auth);
     return (
         <nav className="w-full md:w-11/12 lg:w-10/12 mx-auto bg-white shadow dark:bg-gray-800">
             <div className="container px-6 py-4 mx-auto md:flex md:justify-between md:items-center">
                 <div className="flex items-center justify-between">
                     <div>
-                        <a
+                        <Link
                             className="text-xl font-bold text-gray-800 dark:text-white md:text-2xl hover:text-gray-700 dark:hover:text-gray-300"
-                            href="#"
+                            href="/"
                         >
                             Spind
-                        </a>
+                        </Link>
                     </div>
                 </div>
                 <div className="items-center md:flex">
                     <div className="flex flex-col md:flex-row md:mx-6">
-                        <a
+                        <Link
                             className="my-1 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 md:mx-4 md:my-0"
-                            href="#"
+                            href="/"
                         >
                             Home
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                             className="my-1 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 md:mx-4 md:my-0"
                             href="#"
                         >
                             About
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                             className="my-1 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 md:mx-4 md:my-0"
                             href="#"
                         >
                             Contact
-                        </a>
+                        </Link>
                     </div>
                     <div className="flex justify-center md:block">
                         {auth.user ? (

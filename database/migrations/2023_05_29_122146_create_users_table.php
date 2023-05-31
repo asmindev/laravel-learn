@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('phone_number')->unique();
             $table->string('email')->unique();
-            $table->enum('role', ['admin', 'provider', 'tenant'])->default('tenant');
+            $table->string('role')->default('user');
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

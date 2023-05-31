@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,7 +23,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'role',
         'phone_number',
     ];
+    public function venues()
+    {
+        return $this->hasMany(Venue::class);
+    }
+    public function venue_reviews()
+    {
+        return $this->hasMany(VenueReview::class);
+    }
 }
