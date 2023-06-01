@@ -20,6 +20,8 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "framer-motion": "^10.12.16"
+        "dayjs": "^1.11.7",
+        "framer-motion": "^10.12.16",
+        "react-tailwindcss-datepicker": "^1.6.1"
     }
 }

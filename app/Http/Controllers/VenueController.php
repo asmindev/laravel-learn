@@ -20,7 +20,7 @@ class VenueController extends Controller
         if (!$venue) {
             return Inertia::render('Error/404');
         }
-        $venue->load('venueCategory', 'venueReviews.user', 'user');
+        $venue->load('venueCategory', 'venueReviews.user', 'user', 'venueBookings.user');
         return Inertia::render('Venue/Detail', [
             'data' => $venue
         ]);

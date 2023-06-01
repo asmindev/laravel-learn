@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('phone_number')->unique();
             $table->string('email')->unique();
             $table->string('role')->default('user');
+            $table->string('profile_picture')->default('default_user.png');
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

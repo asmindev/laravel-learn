@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\VenuePhoto;
 use App\Models\VenueReview;
+use App\Models\VenueBooking;
 use App\Models\VenueCategory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -31,5 +32,9 @@ class Venue extends Model
     public function venueReviews()
     {
         return $this->hasMany(VenueReview::class);
+    }
+    public function venueBookings()
+    {
+        return $this->hasMany(VenueBooking::class);
     }
 }

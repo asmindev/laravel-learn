@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "@inertiajs/react";
 import Layout from "@/Components/Layout";
 import Navbar from "@/Components/Navbar";
+import Datepicker from "react-tailwindcss-datepicker";
+import Lapangan from "./Lapangan";
 
 export default function Detail({ data }) {
-    console.log(data);
+    const venueOpen = data.open;
+    const venueClose = data.close;
+    const pickerRef = useRef();
+    const [timeTable, setTimeTable] = useState({});
+    const [popDirection, setPopDirection] = useState("up");
+    const [date, setDate] = useState("");
+
     const { name, photo, address, capacity, price, open, close } = data;
     const reviews = data.venue_reviews;
     const fromTimestamp = (timestamp) => {
@@ -16,11 +24,39 @@ export default function Detail({ data }) {
             day: "numeric",
         });
     };
+    const handleDate = (e) => {
+        setDate(e.startDate);
+    };
+    const yesterday = () => {
+        const today = new Date();
+        const yesterday = new Date(today);
+        yesterday.setDate(yesterday.getDate() - 1);
+        return yesterday;
+    };
+    const updateState = (listHour) => {
+        setTimeTable(listHour);
+    };
+    useEffect(() => {
+        if (pickerRef.current) {
+            const picker = pickerRef.current;
+            const distanceFromBottom =
+                window.innerHeight - picker.getBoundingClientRect().bottom;
+            if (distanceFromBottom < 500) {
+                setPopDirection("up");
+            } else {
+                setPopDirection("down");
+            }
+        }
+        const today = new Date().toISOString().split("T")[0];
+        setDate(today);
+        console.log(timeTable);
+    }, [pickerRef.current, timeTable]);
+
     return (
         <Layout title="Detail Venue">
             <Navbar auth={{}} />
             <div className="relative w-full h-full lg:w-9/12 mx-auto my-8 px-8">
-                <div className="w-full h-full flex flex-col gap-4 mt-16">
+                <div className="w-full h-full flex flex-col gap-4 my-16">
                     <div className="w-full h-full flex-col-reverse md:flex-row-reverse flex gap-4 md:gap-12">
                         <div className="w-full md:w-1/2 h-full flex flex-col gap-4">
                             <div className="w-full h-full flex flex-col gap-4">
@@ -122,7 +158,12 @@ export default function Detail({ data }) {
                                                 {data?.facilities ? (
                                                     data.facilities.map(
                                                         (facility) => (
-                                                            <button className="px-5 py-1 bg-gray-100 border border-gray-300 rounded-full text-gray-800">
+                                                            <button
+                                                                key={
+                                                                    facility.id
+                                                                }
+                                                                className="px-5 py-1 bg-gray-100 border border-gray-300 rounded-full text-gray-800"
+                                                            >
                                                                 {facility.name}
                                                             </button>
                                                         )
@@ -144,7 +185,7 @@ export default function Detail({ data }) {
                             </div>
                         </div>
                     </div>
-                    <div className="w-full md:w-1/2 h-full flex flex-col">
+                    <div className="w-full h-full flex flex-col gap-4 md:flex-row">
                         {/* review section */}
                         <div className="w-full h-full flex flex-col gap-4">
                             <h1 className="text-2xl font-bold text-gray-700">
@@ -153,7 +194,10 @@ export default function Detail({ data }) {
                             <div className="w-full max-h-40 flex flex-col gap-4 overflow-auto">
                                 {reviews?.length > 0 ? (
                                     reviews.map((review) => (
-                                        <div className="w-full h-full flex flex-col gap-2">
+                                        <div
+                                            key={review.id}
+                                            className="w-full h-full flex flex-col gap-2"
+                                        >
                                             <div className="w-full h-full flex flex-col">
                                                 <Link
                                                     href={`/user/${review.user.name}`}
@@ -210,16 +254,66 @@ export default function Detail({ data }) {
                                 </div>
                             </div>
                         </div>
+                        <div className="w-full h-full flex flex-col gap-4">
+                            <h1 className="text-2xl font-bold text-gray-700">
+                                Tersedia
+                            </h1>
+                            <div ref={pickerRef} className="w-full h-full">
+                                <Datepicker
+                                    value={date}
+                                    onChange={handleDate}
+                                    popoverDirection={popDirection}
+                                    minDate={yesterday()}
+                                    placeholder="Pilih Tanggal"
+                                    asSingle={
+                                        data.venue_category.slug === "lapangan"
+                                    }
+                                />
+                            </div>
+                            {/* make a pad with grid */}
+                            <div className="w-full h-full">
+                                {data.venue_category.slug === "lapangan" ? (
+                                    <Lapangan
+                                        state={timeTable}
+                                        updateState={updateState}
+                                        venueOpen={venueOpen}
+                                        venueClose={venueClose}
+                                        date={date}
+                                        bookings={data.venue_bookings}
+                                    />
+                                ) : (
+                                    <div className="w-full h-full flex flex-col gap-4">
+                                        <h1 className="text-2xl font-bold text-gray-700">
+                                            Belum tersedia
+                                        </h1>
+                                    </div>
+                                )}
+                                <div className="w-full mt-8">
+                                    <div className="h-full w-full mx-auto">
+                                        <Link href="/booking">
+                                            <button
+                                                type="button"
+                                                disabled={
+                                                    timeTable.hour
+                                                        ? false
+                                                        : true
+                                                }
+                                                className={`w-full px-5 py-2 bg-indigo-500 rounded-lg text-white disabled:opacity-50 ${
+                                                    timeTable?.hour
+                                                        ? "cursor-not-allowed"
+                                                        : "cursor-pointer"
+                                                }`}
+                                            >
+                                                Book Now
+                                            </button>
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 {/* floating button */}
-                <div className="w-full">
-                    <div className="h-full w-10/12 md:w-6/12 lg:w-2/3 mx-auto my-8 px-8 ">
-                        <button className="w-full px-5 py-2 bg-indigo-500 rounded-full text-white">
-                            <Link href="/booking">Book Now</Link>
-                        </button>
-                    </div>
-                </div>
             </div>
         </Layout>
     );

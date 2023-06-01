@@ -9,15 +9,10 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
-    protected $username = 'username';
-
-    protected $fillable = [
-        'name',
-        'email',
-        'username',
-        'password',
-        'role',
-        'phone_number',
+    protected $guarded = [
+        'id',
+        'created_at',
+        'updated_at',
     ];
 
     protected $hidden = [
@@ -29,8 +24,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Venue::class);
     }
-    public function venue_reviews()
+    public function venueReviews()
     {
         return $this->hasMany(VenueReview::class);
+    }
+    public function venueBookings()
+    {
+        return $this->hasMany(VenueBooking::class);
     }
 }

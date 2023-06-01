@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -16,9 +17,10 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         // login with username or email and password
-
-        $credentials = $request->only('password');
-        if (auth()->attempt(['username' => $request->input('username')] + $credentials) || auth()->attempt(['email' => $request->input('username')] + $credentials)) {
+        $email = $request->email;
+        $password = $request->password;
+        $remember = $request->remember;
+        if (Auth::attempt(['email' => $email, 'password' => $password], $remember)) {
             $request->session()->regenerate();
             return redirect()->intended('/');
         }
@@ -55,21 +57,7 @@ class AuthController extends Controller
             'email' => 'required|email|unique:users',
             'role' => 'required|in:admin,provider,tenant',
             'password' => 'required|confirmed',
-        ], [
-            'phone_number.required' => 'Phone number is required',
-            'phone_number.unique' => 'Phone number is already taken',
-            'username.required' => 'Username is required',
-            'username.unique' => 'Username is already taken',
-            'name.required' => 'Name is required',
-            'email.required' => 'Email is required',
-            'email.unique' => 'Email is already taken',
-            'role.required' => 'Role is required',
-            'role.in' => 'Role must be admin, provider, or tenant',
-            'password.required' => 'Password is required',
-            'password.confirmed' => 'Password confirmation is not match',
         ]);
-
-
         $validateData['password'] = bcrypt($request->password);
         $user = User::create($validateData);
         if ($user) {
