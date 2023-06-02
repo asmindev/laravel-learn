@@ -32,6 +32,7 @@ class BookingController extends Controller
     {
         VenueBooking::create($request->all());
         // back to this page
+
     }
 
     /**
