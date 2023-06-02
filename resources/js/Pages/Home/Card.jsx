@@ -1,15 +1,19 @@
-import React from "react";
-import { Link } from "@inertiajs/react";
+import React from 'react'
+import { Link } from '@inertiajs/react'
 export default function Card({ data }) {
-    console.log(data);
+    console.log(data)
     return (
-        <Link href={`/venue/${data.slug}`}>
-            <div className="w-full h-full p-3">
-                <div className="rounded overflow-hidden h-72">
+        <Link href={route('venue.show', data.slug)} className="w-full h-full">
+            <div className="min-w-full h-full p-3">
+                <div className="w-full rounded overflow-hidden h-72">
                     <img
-                        src={data.photo}
+                        src={
+                            data.photo.startsWith('http')
+                                ? data.photo
+                                : `/storage/${data.photo}`
+                        }
                         alt="test 1"
-                        className="object-cover w-full h-full"
+                        className="object-cover min-w-full h-full object-center"
                     />
                 </div>
                 <div className="mt-4 w-full h-full flex flex-col justify-between">
@@ -34,5 +38,5 @@ export default function Card({ data }) {
                 </div>
             </div>
         </Link>
-    );
+    )
 }

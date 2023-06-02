@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import Navbar from "@/Components/Navbar";
-import Card from "./Card";
-import { AnimatePresence, motion } from "framer-motion";
-import Layout from "@/Components/Layout";
+import React, { useState } from 'react'
+import Navbar from '@/Components/Navbar'
+import Card from './Card'
+import { AnimatePresence, motion } from 'framer-motion'
+import Layout from '@/Components/Layout'
 
 export default function index({ auth, data }) {
-    const category = [...new Set(data.map((item) => item.venue_category.slug))];
-    const [items, setItems] = useState(data);
-    const [clicked, setClicked] = useState("");
+    const category = [...new Set(data.map((item) => item.venue_category.slug))]
+    const [items, setItems] = useState(data)
+    const [clicked, setClicked] = useState('')
     const clicking = (arg) => {
-        setClicked(arg);
+        setClicked(arg)
         // filter by populer
-        if (arg === "all") return setItems(data);
-        const res = data.filter((item) => item.venue_category.slug === arg);
-        setItems(res);
-    };
+        if (arg === 'all') return setItems(data)
+        const res = data.filter((item) => item.venue_category.slug === arg)
+        setItems(res)
+    }
     return (
         <Layout title="Home">
             <Navbar auth={auth} />
@@ -62,31 +62,31 @@ export default function index({ auth, data }) {
                 <div className="px-4 md:w-6/12 lg:w-4/12">
                     <div className="grid grid-cols-4 md:grid-col-6 gap-4">
                         <button
-                            onClick={() => clicking("all")}
+                            onClick={() => clicking('all')}
                             className={`w-full h-full rounded-full border border-gray-300 py-[6px] ${
-                                clicked === "all"
-                                    ? "bg-indigo-500 text-white"
-                                    : "bg-gray-200/80 "
+                                clicked === 'all'
+                                    ? 'bg-indigo-500 text-white'
+                                    : 'bg-gray-200/80 '
                             }`}
                         >
                             Semua
                         </button>
                         <button
-                            onClick={() => clicking("lapangan")}
+                            onClick={() => clicking('lapangan')}
                             className={`w-full h-full rounded-full border border-gray-300 py-[6px] ${
-                                clicked === "lapangan"
-                                    ? "bg-indigo-500 text-white"
-                                    : "bg-gray-200/80 "
+                                clicked === 'lapangan'
+                                    ? 'bg-indigo-500 text-white'
+                                    : 'bg-gray-200/80 '
                             }`}
                         >
                             Lapangan
                         </button>
                         <button
-                            onClick={() => clicking("gedung")}
+                            onClick={() => clicking('gedung')}
                             className={`w-full h-full rounded-full border border-gray-300 py-[6px] ${
-                                clicked === "gedung"
-                                    ? "bg-indigo-500 text-white"
-                                    : "bg-gray-200/80 "
+                                clicked === 'gedung'
+                                    ? 'bg-indigo-500 text-white'
+                                    : 'bg-gray-200/80 '
                             }`}
                         >
                             Gedung
@@ -118,5 +118,5 @@ export default function index({ auth, data }) {
                 </AnimatePresence>
             </div>
         </Layout>
-    );
+    )
 }

@@ -37,4 +37,11 @@ class Venue extends Model
     {
         return $this->hasMany(VenueBooking::class);
     }
+    /**
+     * Get the route key for the model.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 }

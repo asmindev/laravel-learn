@@ -29,24 +29,24 @@ export default function Login({ token, errors }) {
     return (
         <>
             <Head title="Login" />
-            <div class="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
-                <div class="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
-                    <div class="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
+            <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
+                <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
+                    <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
                         <div>
-                            <h1 class="text-2xl xl:text-3xl font-black text-center">
+                            <h1 className="text-2xl xl:text-3xl font-black text-center">
                                 Spind
                             </h1>
                         </div>
-                        <div class="mt-12 flex flex-col items-center">
-                            <h1 class="text-2xl xl:text-3xl font-extrabold">
+                        <div className="mt-12 flex flex-col items-center">
+                            <h1 className="text-2xl xl:text-3xl font-extrabold">
                                 Silahkan Masuk
                             </h1>
-                            <div class="w-full flex-1 mt-8">
-                                <div class="flex flex-col items-center">
-                                    <button class="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
-                                        <div class="bg-white p-2 rounded-full">
+                            <div className="w-full flex-1 mt-8">
+                                <div className="flex flex-col items-center">
+                                    <button className="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
+                                        <div className="bg-white p-2 rounded-full">
                                             <svg
-                                                class="w-4"
+                                                className="w-4"
                                                 viewBox="0 0 533.5 544.3"
                                             >
                                                 <path
@@ -67,33 +67,33 @@ export default function Login({ token, errors }) {
                                                 />
                                             </svg>
                                         </div>
-                                        <span class="ml-4">
+                                        <span className="ml-4">
                                             Sign Up with Google
                                         </span>
                                     </button>
                                 </div>
 
-                                <div class="my-12 border-b text-center">
-                                    <div class="leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-medium bg-white transform translate-y-1/2">
+                                <div className="my-12 border-b text-center">
+                                    <div className="leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-medium bg-white transform translate-y-1/2">
                                         Or sign up with e-mail
                                     </div>
                                 </div>
-                                <div class="mx-auto max-w-xs">
+                                <div className="mx-auto max-w-xs">
                                     {formErrors.message && (
-                                        <div class="text-red-700 py-3 rounded relative flex flex-col">
-                                            <strong class="font-bold">
+                                        <div className="text-red-700 py-3 rounded relative flex flex-col">
+                                            <strong className="font-bold">
                                                 Error!
                                             </strong>
-                                            <span class="block sm:inline text-sm">
+                                            <span className="block sm:inline text-sm">
                                                 {formErrors.message}
                                             </span>
                                         </div>
                                     )}
                                 </div>
                                 <form onSubmit={handleSubmit}>
-                                    <div class="mx-auto max-w-xs">
+                                    <div className="mx-auto max-w-xs">
                                         <input
-                                            class="w-full px-4 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                                            className="w-full px-4 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
                                             type="email"
                                             placeholder="Email"
                                             onChange={(e) =>
@@ -101,7 +101,7 @@ export default function Login({ token, errors }) {
                                             }
                                         />
                                         <input
-                                            class="w-full px-4 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
+                                            className="w-full px-4 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
                                             type="password"
                                             placeholder="Password"
                                             onChange={(e) =>
@@ -111,7 +111,7 @@ export default function Login({ token, errors }) {
                                                 )
                                             }
                                         />
-                                        <div class="text-gray-600 my-4">
+                                        <div className="text-gray-600 my-4">
                                             <input
                                                 id="remember"
                                                 type="checkbox"
@@ -125,14 +125,14 @@ export default function Login({ token, errors }) {
                                             />
                                             <label
                                                 for="remember"
-                                                class="ml-2 text-sm"
+                                                className="ml-2 text-sm"
                                             >
                                                 Remember me
                                             </label>
                                         </div>
-                                        <button class="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
+                                        <button className="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
                                             <svg
-                                                class="w-6 h-6 -ml-2"
+                                                className="w-6 h-6 -ml-2"
                                                 fill="none"
                                                 stroke="currentColor"
                                                 stroke-width="2"
@@ -143,12 +143,12 @@ export default function Login({ token, errors }) {
                                                 <circle cx="8.5" cy="7" r="4" />
                                                 <path d="M20 8v6M23 11h-6" />
                                             </svg>
-                                            <span class="ml-3">Masuk</span>
+                                            <span className="ml-3">Masuk</span>
                                         </button>
-                                        <div class="mt-5 text-sm text-center">
+                                        <div className="mt-5 text-sm text-center">
                                             Tidak punya akun?{" "}
                                             <Link href="/auth/register">
-                                                <span class="font-semibold text-indigo-500 hover:text-indigo-600 transition-all duration-300 ease-in-out">
+                                                <span className="font-semibold text-indigo-500 hover:text-indigo-600 transition-all duration-300 ease-in-out">
                                                     Daftar disini
                                                 </span>
                                             </Link>
@@ -158,8 +158,8 @@ export default function Login({ token, errors }) {
                             </div>
                         </div>
                     </div>
-                    <div class="flex-1 bg-indigo-100 text-center hidden lg:flex">
-                        <div class="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat bg-[url('https://storage.googleapis.com/devitary-image-host.appspot.com/15848031292911696601-undraw_designer_life_w96d.svg')]"></div>
+                    <div className="flex-1 bg-indigo-100 text-center hidden lg:flex">
+                        <div className="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat bg-[url('https://storage.googleapis.com/devitary-image-host.appspot.com/15848031292911696601-undraw_designer_life_w96d.svg')]"></div>
                     </div>
                 </div>
             </div>

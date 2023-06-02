@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\VenueController;
+use App\Http\Controllers\BookingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +28,5 @@ Route::post('/auth/login', [AuthController::class, 'login'])->middleware('guest'
 
 Route::get('/auth/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
-// venue controller
-Route::get('/venue', [VenueController::class, 'views'])->name('venue')->middleware('auth');
-Route::post('/venue', [VenueController::class, 'add_venue'])->middleware('auth');
-Route::get('/venue/{slug}', [VenueController::class, 'detail'])->name('venue.detail');
+Route::resource('venue', VenueController::class);
+Route::resource('booking', BookingController::class);

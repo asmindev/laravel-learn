@@ -1,60 +1,86 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Link } from "@inertiajs/react";
-import Layout from "@/Components/Layout";
-import Navbar from "@/Components/Navbar";
-import Datepicker from "react-tailwindcss-datepicker";
-import Lapangan from "./Lapangan";
+import React, { useState, useEffect } from 'react'
+import { Link } from '@inertiajs/react'
+import Layout from '@/Components/Layout'
+import Navbar from '@/Components/Navbar'
+import Datepicker from 'react-tailwindcss-datepicker'
+import Lapangan from './Lapangan'
+import ModalLayout from '@/Components/ModalLayout'
+import { useForm } from '@inertiajs/react'
+import { fromTimestamp, yesterday } from '@/helper/parseTime'
+import Modal from '@/Components/Modal'
 
-export default function Detail({ data }) {
-    const venueOpen = data.open;
-    const venueClose = data.close;
-    const pickerRef = useRef();
-    const [timeTable, setTimeTable] = useState({});
-    const [popDirection, setPopDirection] = useState("up");
-    const [date, setDate] = useState("");
+export default function Detail({ data, auth, errors }) {
+    const venueOpen = data.open
+    const venueClose = data.close
+    const [date, setDate] = useState('')
+    const [modal, setModal] = useState(false)
+    const [success, setSuccess] = useState(false)
+    const [timeTable, setTimeTable] = useState({})
 
-    const { name, photo, address, capacity, price, open, close } = data;
-    const reviews = data.venue_reviews;
-    const fromTimestamp = (timestamp) => {
-        const date = new Date(timestamp);
-        return date.toLocaleDateString("id-ID", {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-        });
-    };
+    const { name, photo, address, capacity, price, open, close } = data
+    const reviews = data.venue_reviews
+    const form = useForm({
+        name: 'Test pesan',
+        price: data.price,
+        date: '',
+        start_time: '',
+        end_time: '',
+        venue_id: data.id,
+        user_id: auth.user?.id || '',
+    })
+
     const handleDate = (e) => {
-        setDate(e.startDate);
-    };
-    const yesterday = () => {
-        const today = new Date();
-        const yesterday = new Date(today);
-        yesterday.setDate(yesterday.getDate() - 1);
-        return yesterday;
-    };
+        console.log(e)
+        setDate(e.startDate)
+    }
+    const handleBooking = (e) => {
+        e.preventDefault()
+        setModal(true)
+        form.setData({
+            name: auth.user.name,
+            date: date,
+            price: data.price,
+            venue_id: data.id,
+            user_id: auth.user.id,
+            start_time: timeTable.hour,
+            end_time: timeTable.end,
+        })
+    }
+    const bookingConfirm = (e) => {
+        e.preventDefault()
+        console.log(form.data)
+        form.post(route('booking.store'), {
+            onSuccess: () => {
+                setModal(false)
+                setSuccess(true)
+            },
+            onError: () => {
+                alert('Booking gagal')
+            },
+        })
+    }
     const updateState = (listHour) => {
-        setTimeTable(listHour);
-    };
+        setTimeTable(listHour)
+    }
+    const closeModal = () => {
+        window.location.reload()
+    }
     useEffect(() => {
-        if (pickerRef.current) {
-            const picker = pickerRef.current;
-            const distanceFromBottom =
-                window.innerHeight - picker.getBoundingClientRect().bottom;
-            if (distanceFromBottom < 500) {
-                setPopDirection("up");
-            } else {
-                setPopDirection("down");
-            }
+        if (date === '') {
+            const today = new Date()
+            const yyyy = today.getFullYear()
+            const mm = String(today.getMonth() + 1).padStart(2, '0')
+            const dd = String(today.getDate()).padStart(2, '0')
+            const formattedDate = `${yyyy}-${mm}-${dd}`
+            setDate(formattedDate)
         }
-        const today = new Date().toISOString().split("T")[0];
-        setDate(today);
-        console.log(timeTable);
-    }, [pickerRef.current, timeTable]);
+        console.log(timeTable)
+    }, [timeTable])
 
     return (
         <Layout title="Detail Venue">
-            <Navbar auth={{}} />
+            <Navbar auth={auth} />
+            {success && <Modal data={form.data} closeModal={closeModal} />}
             <div className="relative w-full h-full lg:w-9/12 mx-auto my-8 px-8">
                 <div className="w-full h-full flex flex-col gap-4 my-16">
                     <div className="w-full h-full flex-col-reverse md:flex-row-reverse flex gap-4 md:gap-12">
@@ -166,7 +192,7 @@ export default function Detail({ data }) {
                                                             >
                                                                 {facility.name}
                                                             </button>
-                                                        )
+                                                        ),
                                                     )
                                                 ) : (
                                                     <p className="text-gray-500 text-sm">
@@ -180,8 +206,16 @@ export default function Detail({ data }) {
                             </div>
                         </div>
                         <div className="w-full md:w-1/2 h-full flex flex-col gap-4">
-                            <div className="">
-                                <img src={photo} alt={name} />
+                            <div className="overflow-hidden bg-red-500">
+                                <img
+                                    src={
+                                        photo.startsWith('http')
+                                            ? photo
+                                            : `/storage/${photo}`
+                                    }
+                                    alt={name}
+                                    className="max-h-96 object-cover min-w-full h-full object-center"
+                                />
                             </div>
                         </div>
                     </div>
@@ -208,7 +242,7 @@ export default function Detail({ data }) {
                                                 </Link>
                                                 <p className="text-gray-500 text-xs">
                                                     {fromTimestamp(
-                                                        review.created_at
+                                                        review.created_at,
                                                     )}
                                                 </p>
                                             </div>
@@ -258,29 +292,85 @@ export default function Detail({ data }) {
                             <h1 className="text-2xl font-bold text-gray-700">
                                 Tersedia
                             </h1>
-                            <div ref={pickerRef} className="w-full h-full">
+                            <div className="w-full h-full">
                                 <Datepicker
                                     value={date}
                                     onChange={handleDate}
-                                    popoverDirection={popDirection}
                                     minDate={yesterday()}
                                     placeholder="Pilih Tanggal"
                                     asSingle={
-                                        data.venue_category.slug === "lapangan"
+                                        data.venue_category.slug === 'lapangan'
                                     }
                                 />
                             </div>
                             {/* make a pad with grid */}
                             <div className="w-full h-full">
-                                {data.venue_category.slug === "lapangan" ? (
-                                    <Lapangan
-                                        state={timeTable}
-                                        updateState={updateState}
-                                        venueOpen={venueOpen}
-                                        venueClose={venueClose}
-                                        date={date}
-                                        bookings={data.venue_bookings}
-                                    />
+                                {data.venue_category.slug === 'lapangan' ? (
+                                    <>
+                                        <Lapangan
+                                            state={timeTable}
+                                            updateState={updateState}
+                                            venueOpen={venueOpen}
+                                            venueClose={venueClose}
+                                            date={date}
+                                            bookings={data.venue_bookings}
+                                        />
+                                        {modal && (
+                                            <ModalLayout>
+                                                <div className="w-full h-full flex flex-col gap-4 px-5 py-4">
+                                                    <h1 className="text-2xl font-bold text-gray-700">
+                                                        Booking Lapangan{' '}
+                                                        {data.name}
+                                                    </h1>
+                                                    <div className="w-full h-full flex flex-col gap-2">
+                                                        <div>
+                                                            <h1 className="text-lg font-bold text-gray-700">
+                                                                Tanggal
+                                                            </h1>
+                                                            <p className="text-gray-500 text-sm">
+                                                                {fromTimestamp(
+                                                                    date,
+                                                                )}
+                                                            </p>
+                                                        </div>
+                                                        <div>
+                                                            <h1 className="text-lg font-bold text-gray-700">
+                                                                Jam
+                                                            </h1>
+                                                            <p className="text-gray-500 text-sm">
+                                                                {`${timeTable.hour} - ${timeTable.end}`}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="w-full h-full flex gap-4 justify-end">
+                                                        <div className="w-1/2 h-full flex gap-4">
+                                                            <button
+                                                                disabled={
+                                                                    form.processing
+                                                                }
+                                                                onClick={
+                                                                    bookingConfirm
+                                                                }
+                                                                className="w-full px-2 py-1 bg-indigo-500 rounded-lg text-white"
+                                                            >
+                                                                Booking
+                                                            </button>
+                                                            <button
+                                                                onClick={() =>
+                                                                    setModal(
+                                                                        false,
+                                                                    )
+                                                                }
+                                                                className="w-full px-5 py-2 bg-red-500 rounded-lg text-white"
+                                                            >
+                                                                Cancel
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ModalLayout>
+                                        )}
+                                    </>
                                 ) : (
                                     <div className="w-full h-full flex flex-col gap-4">
                                         <h1 className="text-2xl font-bold text-gray-700">
@@ -290,23 +380,16 @@ export default function Detail({ data }) {
                                 )}
                                 <div className="w-full mt-8">
                                     <div className="h-full w-full mx-auto">
-                                        <Link href="/booking">
-                                            <button
-                                                type="button"
-                                                disabled={
-                                                    timeTable.hour
-                                                        ? false
-                                                        : true
-                                                }
-                                                className={`w-full px-5 py-2 bg-indigo-500 rounded-lg text-white disabled:opacity-50 ${
-                                                    timeTable?.hour
-                                                        ? "cursor-not-allowed"
-                                                        : "cursor-pointer"
-                                                }`}
-                                            >
-                                                Book Now
-                                            </button>
-                                        </Link>
+                                        <button
+                                            type="button"
+                                            onClick={handleBooking}
+                                            disabled={
+                                                timeTable.hour ? false : true
+                                            }
+                                            className={`w-full px-5 py-2 bg-indigo-500 rounded-lg text-white disabled:opacity-50`}
+                                        >
+                                            Book Now
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -316,5 +399,5 @@ export default function Detail({ data }) {
                 {/* floating button */}
             </div>
         </Layout>
-    );
+    )
 }
