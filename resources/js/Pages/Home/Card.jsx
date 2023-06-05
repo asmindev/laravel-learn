@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from '@inertiajs/react'
 export default function Card({ data }) {
-    console.log(data)
     return (
         <Link href={route('venue.show', data.slug)} className="w-full h-full">
             <div className="min-w-full h-full p-3">

@@ -23,6 +23,7 @@ class VenueController extends Controller
      */
     public function create()
     {
+        // check the auth user
         return Inertia::render('Venue/index');
     }
 

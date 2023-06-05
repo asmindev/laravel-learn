@@ -35,16 +35,21 @@ export default function Detail({ data, auth, errors }) {
     }
     const handleBooking = (e) => {
         e.preventDefault()
-        setModal(true)
-        form.setData({
-            name: auth.user.name,
-            date: date,
-            price: data.price,
-            venue_id: data.id,
-            user_id: auth.user.id,
-            start_time: timeTable.hour,
-            end_time: timeTable.end,
-        })
+        if (auth.user) {
+            setModal(true)
+
+            form.setData({
+                name: auth.user.name,
+                date: date,
+                price: data.price,
+                venue_id: data.id,
+                user_id: auth.user.id,
+                start_time: timeTable.hour,
+                end_time: timeTable.end,
+            })
+        } else {
+            alert('Login dulu')
+        }
     }
     const bookingConfirm = (e) => {
         e.preventDefault()
@@ -206,7 +211,7 @@ export default function Detail({ data, auth, errors }) {
                             </div>
                         </div>
                         <div className="w-full md:w-1/2 h-full flex flex-col gap-4">
-                            <div className="overflow-hidden bg-red-500">
+                            <div className="overflow-hidden">
                                 <img
                                     src={
                                         photo.startsWith('http')
@@ -388,7 +393,9 @@ export default function Detail({ data, auth, errors }) {
                                             }
                                             className={`w-full px-5 py-2 bg-indigo-500 rounded-lg text-white disabled:opacity-50`}
                                         >
-                                            Book Now
+                                            {auth.user
+                                                ? 'Booking'
+                                                : 'Silahkan Login'}
                                         </button>
                                     </div>
                                 </div>
