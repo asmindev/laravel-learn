@@ -18,6 +18,11 @@ class VenueReviewFactory extends Factory
     {
         return [
             //
+            'user_id' => $this->faker->numberBetween(1, 10),
+            'venue_id' => $this->faker->numberBetween(1, 10),
+            'rating' => $this->faker->numberBetween(1, 5),
+            'comment' => $this->faker->text(),
+
         ];
     }
 }

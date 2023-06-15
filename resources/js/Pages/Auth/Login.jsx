@@ -1,7 +1,7 @@
-import React from "react";
-import { Link, Head, useForm } from "@inertiajs/react";
+import React from 'react'
+import { Link, Head, useForm, usePage } from '@inertiajs/react'
 
-export default function Login({ token, errors }) {
+export default function Login({ token, errors, flash }) {
     const {
         data,
         setData,
@@ -9,23 +9,23 @@ export default function Login({ token, errors }) {
         processing,
         errors: formErrors,
     } = useForm({
-        email: "",
-        password: "",
+        email: '',
+        password: '',
         remember: false,
-    });
+    })
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-        post(route("login"), {
+        e.preventDefault()
+        post(route('login'), {
             onSuccess: () => {
-                setData("email", "");
-                setData("password", "");
+                setData('email', '')
+                setData('password', '')
             },
             onError: (errors) => {
-                setData("password", "");
+                setData('password', '')
             },
-        });
-    };
+        })
+    }
     return (
         <>
             <Head title="Login" />
@@ -38,6 +38,15 @@ export default function Login({ token, errors }) {
                             </h1>
                         </div>
                         <div className="mt-12 flex flex-col items-center">
+                            <div className="w-full flex-1 mt-8 text-indigo-500">
+                                {flash.success && (
+                                    <div className="bg-green-100 border border-green-300 text-green-700 px-4 py-3 rounded relative mb-4">
+                                        <span className="block sm:inline text-sm">
+                                            {flash.success}
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
                             <h1 className="text-2xl xl:text-3xl font-extrabold">
                                 Silahkan Masuk
                             </h1>
@@ -97,7 +106,7 @@ export default function Login({ token, errors }) {
                                             type="email"
                                             placeholder="Email"
                                             onChange={(e) =>
-                                                setData("email", e.target.value)
+                                                setData('email', e.target.value)
                                             }
                                         />
                                         <input
@@ -106,8 +115,8 @@ export default function Login({ token, errors }) {
                                             placeholder="Password"
                                             onChange={(e) =>
                                                 setData(
-                                                    "password",
-                                                    e.target.value
+                                                    'password',
+                                                    e.target.value,
                                                 )
                                             }
                                         />
@@ -118,13 +127,13 @@ export default function Login({ token, errors }) {
                                                 className="appearance-none ring-indigo-500 indeterminate:bg-indigo-300  checked:bg-indigo-600 rounded-md"
                                                 onChange={(e) =>
                                                     setData(
-                                                        "remember",
-                                                        e.target.checked
+                                                        'remember',
+                                                        e.target.checked,
                                                     )
                                                 }
                                             />
                                             <label
-                                                for="remember"
+                                                htmlFor="remember"
                                                 className="ml-2 text-sm"
                                             >
                                                 Remember me
@@ -135,9 +144,9 @@ export default function Login({ token, errors }) {
                                                 className="w-6 h-6 -ml-2"
                                                 fill="none"
                                                 stroke="currentColor"
-                                                stroke-width="2"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
+                                                strokeWidth="2"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
                                             >
                                                 <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
                                                 <circle cx="8.5" cy="7" r="4" />
@@ -146,7 +155,7 @@ export default function Login({ token, errors }) {
                                             <span className="ml-3">Masuk</span>
                                         </button>
                                         <div className="mt-5 text-sm text-center">
-                                            Tidak punya akun?{" "}
+                                            Tidak punya akun?{' '}
                                             <Link href="/auth/register">
                                                 <span className="font-semibold text-indigo-500 hover:text-indigo-600 transition-all duration-300 ease-in-out">
                                                     Daftar disini
@@ -164,5 +173,5 @@ export default function Login({ token, errors }) {
                 </div>
             </div>
         </>
-    );
+    )
 }

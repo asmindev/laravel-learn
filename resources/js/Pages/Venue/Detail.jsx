@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from '@inertiajs/react'
 import Layout from '@/Components/Layout'
-import Navbar from '@/Components/Navbar'
+import Navbar from '@/Components/Navigation/Navbar'
 import Datepicker from 'react-tailwindcss-datepicker'
 import Lapangan from './Lapangan'
 import ModalLayout from '@/Components/ModalLayout'
@@ -59,7 +59,8 @@ export default function Detail({ data, auth, errors }) {
                 setModal(false)
                 setSuccess(true)
             },
-            onError: () => {
+            onError: (err) => {
+                console.log(err)
                 alert('Booking gagal')
             },
         })
@@ -322,12 +323,12 @@ export default function Detail({ data, auth, errors }) {
                                         />
                                         {modal && (
                                             <ModalLayout>
-                                                <div className="w-full h-full flex flex-col gap-4 px-5 py-4">
+                                                <div className="w-full md:w-1/2 lg:w-2/5 bg-white mx-auto rounded-xl p-4 text-left">
                                                     <h1 className="text-2xl font-bold text-gray-700">
                                                         Booking Lapangan{' '}
                                                         {data.name}
                                                     </h1>
-                                                    <div className="w-full h-full flex flex-col gap-2">
+                                                    <div className="w-full h-full flex flex-col gap-2 mt-4">
                                                         <div>
                                                             <h1 className="text-lg font-bold text-gray-700">
                                                                 Tanggal

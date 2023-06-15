@@ -18,6 +18,8 @@ class VenueCategoryFactory extends Factory
     {
         return [
             //
+            'name' => $this->faker->name(),
+            'slug' => $this->faker->slug(),
         ];
     }
 }

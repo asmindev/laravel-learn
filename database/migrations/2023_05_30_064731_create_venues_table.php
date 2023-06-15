@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('address');
             $table->integer('capacity');
             $table->integer('price');
-            $table->time('open');
-            $table->time('close');
+            $table->string('open', 5);
+            $table->string('close', 5);
             $table->string('contact');
             $table->string('photo');
             $table->timestamps();

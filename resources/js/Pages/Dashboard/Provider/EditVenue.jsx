@@ -1,28 +1,43 @@
 import React, { useState, useRef, useEffect } from 'react'
 import Layout from '@/Components/Layout'
-import { useForm } from '@inertiajs/react'
+import { useForm, router } from '@inertiajs/react'
 import InputError from '@/Components/InputError'
 import { motion } from 'framer-motion'
-import { router } from '@inertiajs/react'
+import validateTime from '@/helper/validateTime'
+import hours from '@/helper/HourList'
+
 export default function index(props) {
-    console.log(props)
     const imageRef = useRef(null)
-    const [selectedTab, setSelectedTab] = useState(1)
-    const { data, setData, post, errors, reset, progress } = useForm({
-        name: '',
-        address: '',
-        capacity: '',
-        price: '',
-        open: '',
-        close: '',
-        description: '',
+    const [selectedTab, setSelectedTab] = useState(props.data.venue_category_id)
+    const { data, setData, put, errors, reset, progress } = useForm({
+        name: props.data.name,
+        address: props.data.address,
+        capacity: props.data.capacity,
+        open: props.data.open,
+        close: props.data.close,
+        venue_category_id: props.data.venue_category_id,
+        contact: props.data.contact,
+        price: props.data.price,
+        slug: props.data.slug,
+        description: props.data.description,
         photo: '',
-        contact: '',
-        venue_category_id: 1,
     })
+    const [error, setError] = useState({ ...errors })
     const submitHandler = (e) => {
         e.preventDefault()
-        post(route('venue.store'))
+        console.log(data)
+        router.post(route('venue.update', data.slug), {
+            _method: 'put',
+            ...data,
+        })
+    }
+    const urlToBlob = async (url) => {
+        console.log(url)
+        const response = await fetch(url, {
+            mode: 'no-cors',
+        })
+        const blob = await response.blob()
+        return blob
     }
 
     const itemTab = [
@@ -40,16 +55,31 @@ export default function index(props) {
         setData('venue_category_id', id)
     }
 
-    useEffect(() => {
-        if (data.photo) {
-            imageRef.current.src = URL.createObjectURL(
-                new Blob([data.photo], {
-                    type: 'image/jpeg',
-                }),
-            )
+    const timeValidation = (e) => {
+        const { value } = e.target
+        const valid = validateTime(value)
+        console.log(valid)
+        if (!valid) {
+            setError('open', 'invalid')
+        } else {
+            errors.open = ''
         }
-        console.log(data)
-    }, [data])
+    }
+    useEffect(() => {
+        let url = props.data.photo
+        if (!url.startsWith('http')) {
+            url = `${window.location.origin}/storage/${url}`
+        }
+        urlToBlob('https://api.multiavatar.com/admin.png').then((blob) => {
+            console.log(blob)
+            const file = new File([blob], 'venue.jpg', { type: blob.type })
+            setData('photo', file)
+        })
+        if (props.errors) {
+            console.log(props.errors)
+            setError(props.errors)
+        }
+    }, [])
 
     return (
         <Layout title="Venue">
@@ -103,6 +133,7 @@ export default function index(props) {
                                             type="text"
                                             className="w-full h-full my-2 px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent trasnsition-all duration-200 ease-in-out"
                                             placeholder="Nama"
+                                            value={data.name}
                                         />
                                         <InputError
                                             error={errors}
@@ -123,6 +154,7 @@ export default function index(props) {
                                             id="address"
                                             className="w-full h-full my-2 px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent trasnsition-all duration-200 ease-in-out"
                                             placeholder="Alamat"
+                                            value={data.address}
                                         />
                                         <InputError
                                             error={errors}
@@ -146,6 +178,7 @@ export default function index(props) {
                                             type="text"
                                             className="w-full h-full my-2 px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent trasnsition-all duration-200 ease-in-out"
                                             placeholder="Kapasitas"
+                                            value={data.capacity}
                                         />
                                         <InputError
                                             error={errors}
@@ -164,6 +197,7 @@ export default function index(props) {
                                             type="text"
                                             className="w-full h-full my-2 px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent trasnsition-all duration-200 ease-in-out"
                                             placeholder="Harga"
+                                            value={data.price}
                                         />
                                         <InputError
                                             error={errors}
@@ -176,36 +210,59 @@ export default function index(props) {
                                         Jam Operasional
                                     </h1>
                                     <div className="w-full h-fit my-3 grid grid-cols-2 md:grid-cols-2 gap-3">
-                                        <div className="w-full h-fit flex justify-center items-center">
-                                            <input
+                                        <div className="w-full h-fit flex flex-col justify-center items-center">
+                                            <select
+                                                className="w-full h-full px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent trasnsition-all duration-200 ease-in-out"
                                                 onChange={(e) =>
                                                     setData(
                                                         'open',
                                                         e.target.value,
                                                     )
                                                 }
-                                                type="text"
-                                                className="w-full h-full px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent trasnsition-all duration-200 ease-in-out"
-                                                placeholder="Buka"
-                                            />
+                                                // make 10:00:00 to 10:00
+                                                defaultValue={data.open.slice(
+                                                    0,
+                                                    5,
+                                                )}
+                                            >
+                                                {hours.map((hour) => (
+                                                    <option
+                                                        value={hour}
+                                                        key={hour}
+                                                    >
+                                                        {hour}
+                                                    </option>
+                                                ))}
+                                            </select>
                                             <InputError
-                                                error={errors}
+                                                error={error}
                                                 name={'open'}
                                             />
                                         </div>
 
-                                        <div className="w-full h-fit flex justify-center items-center">
-                                            <input
+                                        <div className="w-full h-fit flex flex-col justify-center items-center">
+                                            <select
+                                                className="w-full h-full px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent trasnsition-all duration-200 ease-in-out"
                                                 onChange={(e) =>
                                                     setData(
                                                         'close',
                                                         e.target.value,
                                                     )
                                                 }
-                                                type="text"
-                                                className="w-full h-full px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent trasnsition-all duration-200 ease-in-out"
-                                                placeholder="Tutup"
-                                            />
+                                                defaultValue={data.close.slice(
+                                                    0,
+                                                    5,
+                                                )}
+                                            >
+                                                {hours.map((hour) => (
+                                                    <option
+                                                        value={hour}
+                                                        key={hour}
+                                                    >
+                                                        {hour}
+                                                    </option>
+                                                ))}
+                                            </select>
                                             <InputError
                                                 error={errors}
                                                 name={'close'}
@@ -231,6 +288,7 @@ export default function index(props) {
                                                 type="text"
                                                 className="w-full h-full my-2 px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent trasnsition-all duration-200 ease-in-out"
                                                 placeholder="Contact"
+                                                value={data.contact}
                                             />
                                             <InputError
                                                 error={errors}
@@ -242,12 +300,19 @@ export default function index(props) {
                                                 Gambar
                                             </label>
                                             <input
-                                                onChange={(e) =>
+                                                onChange={(e) => {
+                                                    imageRef.current.src =
+                                                        URL.createObjectURL(
+                                                            e.target.files[0],
+                                                        )
                                                     setData(
                                                         'photo',
                                                         e.target.files[0],
                                                     )
-                                                }
+                                                    console.log(
+                                                        e.target.files[0],
+                                                    )
+                                                }}
                                                 id="image"
                                                 type="file"
                                                 accept="image/*"
@@ -287,6 +352,7 @@ export default function index(props) {
                                         id="description"
                                         className="w-full h-24 my-2 px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent trasnsition-all duration-200 ease-in-out resize-none"
                                         placeholder="Deskripsi"
+                                        value={data.description}
                                     ></textarea>
                                     <InputError
                                         error={errors}
@@ -295,7 +361,7 @@ export default function index(props) {
                                 </div>
                                 <div className="w-full h-fit my-3">
                                     <button className="w-full h-full px-4 py-3 rounded bg-indigo-500 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent trasnsition-all duration-200 ease-in-out">
-                                        Tambah
+                                        Update
                                     </button>
                                 </div>
                             </form>
@@ -313,7 +379,6 @@ export default function index(props) {
                         <img
                             ref={imageRef}
                             className="w-full h-[38rem] object-cover rounded"
-                            src="https://images.unsplash.com/photo-1620735692151-26a7e0748429?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80"
                             alt=""
                         />
                     </div>

@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import Navbar from '@/Components/Navbar'
+import Navbar from '@/Components/Navigation/Navbar'
 import Card from './Card'
 import { AnimatePresence, motion } from 'framer-motion'
 import Layout from '@/Components/Layout'
 
 export default function index({ auth, data }) {
-    const category = [...new Set(data.map((item) => item.venue_category.slug))]
+    // console.log(data)
+    // const category = [...new Set(data.map((item) => item.venue_category.slug))]
     const [items, setItems] = useState(data)
     const [clicked, setClicked] = useState('')
     const clicking = (arg) => {
@@ -116,6 +117,71 @@ export default function index({ auth, data }) {
                         ))}
                     </motion.div>
                 </AnimatePresence>
+            </div>
+            <div className="mt-12 w-full relative">
+                <div className="w-full h-full md:w-11/12 lg:w-10/12 mx-auto my-4 px-8">
+                    {/* fitur */}
+                    <div className="w-full h-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-center items-center">
+                        <div className="bg-gradient-to-b from-orange-100 via-white py-12 sm:py-8 bg-orange-50 flex flex-col items-center justify-center shadow-xl">
+                            <img
+                                src="https://cdn.sstatic.net/Img/home/illo-public.svg?v=14bd5a506009"
+                                alt="Illustration of Stack Overflow"
+                                className="my-8 w-48 h-auto"
+                            />
+                            <h2 className="mx-8 sm:mx-6 mb-3 text-md font-bold leading-tight text-center">
+                                Temukan gedung atau lapangan olahraga yang cocok
+                            </h2>
+                            <p className="mx-8 sm:mx-6 text-gray-600 text-sm text-center">
+                                Spind adalah solusi terbaik untuk pencarian
+                                ruang
+                            </p>
+                            <a
+                                href="/auth/register"
+                                className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-8 mt-4 rounded w-full sm:w-max"
+                            >
+                                Ayo join
+                            </a>
+                            <p className="mt-3 mb-0 text-gray-400">
+                                atau{' '}
+                                <a
+                                    href="/"
+                                    className="text-black-400 hover:text-orange-500"
+                                >
+                                    cari tempat
+                                </a>
+                            </p>
+                        </div>
+                        <div className="bg-gradient-to-b from-orange-100 via-white py-12 sm:py-8 bg-orange-50 flex flex-col items-center justify-center shadow-xl">
+                            <img
+                                src="https://cdn.sstatic.net/Img/home/illo-public.svg?v=14bd5a506009"
+                                alt="Illustration of Stack Overflow"
+                                className="my-8 w-48 h-auto"
+                            />
+                            <h2 className="mx-8 sm:mx-6 mb-3 text-md font-bold leading-tight text-center">
+                                Temukan gedung atau lapangan olahraga yang cocok
+                            </h2>
+                            <p className="mx-8 sm:mx-6 text-gray-600 text-sm text-center">
+                                Spind adalah solusi terbaik untuk pencarian
+                                ruang
+                            </p>
+                            <a
+                                href="/auth/register"
+                                className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-8 mt-4 rounded w-full sm:w-max"
+                            >
+                                Ayo join
+                            </a>
+                            <p className="mt-3 mb-0 text-gray-400">
+                                atau{' '}
+                                <a
+                                    href="/"
+                                    className="text-black-400 hover:text-orange-500"
+                                >
+                                    cari tempat
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </Layout>
     )

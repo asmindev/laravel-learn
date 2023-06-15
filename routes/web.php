@@ -5,6 +5,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\VenueController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +33,9 @@ Route::get('/auth/logout', [AuthController::class, 'logout'])->middleware('auth'
 
 Route::resource('venue', VenueController::class);
 Route::resource('booking', BookingController::class);
+Route::resource('user', UserController::class);
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
+Route::get('/dashboard/all-venues', [DashboardController::class, 'allVenues'])->middleware('auth')->name('dashboard.all-venues');
+Route::get('/dashboard/all-users', [DashboardController::class, 'allUsers'])->middleware('auth')->name('dashboard.all-users');
+Route::get('/dashboard/profile', [DashboardController::class, 'profile'])->middleware('auth')->name('dashboard.profile');
