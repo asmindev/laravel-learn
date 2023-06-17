@@ -76,7 +76,7 @@ export default function Bookings({ user, flash }) {
                                             >
                                                 Detail
                                             </Link>
-                                            <button
+                                            {/* <button
                                                 onClick={() =>
                                                     deleteBooking(booking)
                                                 }
@@ -84,7 +84,7 @@ export default function Bookings({ user, flash }) {
                                                 className="border-2 text-gray-700 px-4 py-[0.4rem] rounded-md text-sm"
                                             >
                                                 Cancel
-                                            </button>
+                                            </button> */}
                                         </div>
                                     </div>
                                 </div>
