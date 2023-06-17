@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import Layout from './Components/Layout'
+import Layout from '../Components/Layout'
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion'
 import { Link, useForm } from '@inertiajs/react'
+import rupiahFormat from '@/helper/rupiahFormat'
+import { toast } from 'react-toastify'
+
 export default function AllVenues({ auth, data, flash }) {
     const [user, setUser] = useState({ ...data })
     const [venues, setVenues] = useState(user.venues)
@@ -28,11 +31,7 @@ export default function AllVenues({ auth, data, flash }) {
                                 <h1 className="text-2xl font-bold text-gray-700">
                                     All Venues
                                 </h1>
-                                {flash.success && (
-                                    <div className="w-fit bg-green-100 text-green-500 rounded my-2 px-3 py-4 border-l-4 border-green-500">
-                                        {flash.success}
-                                    </div>
-                                )}
+                                {flash.success && toast.success(flash.success)}
                             </div>
                         </div>
                         <div className="w-full max-h-96 bg-white rounded-xl overflow-auto">
@@ -68,7 +67,7 @@ export default function AllVenues({ auth, data, flash }) {
                                                 {venue.capacity}
                                             </td>
                                             <td className="border px-4 py-4">
-                                                {venue.price}
+                                                {rupiahFormat(venue.price)}
                                             </td>
                                             <td className="border px-4 py-4">
                                                 <div className="w-full flex gap-2">

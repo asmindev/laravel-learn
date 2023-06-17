@@ -1,7 +1,7 @@
-import React from "react";
-import { Link, Head, useForm } from "@inertiajs/react";
+import React from 'react'
+import { Link, Head, useForm } from '@inertiajs/react'
 
-export default function Login({ token, errors }) {
+export default function Register({ token, errors }) {
     const {
         data,
         setData,
@@ -9,48 +9,50 @@ export default function Login({ token, errors }) {
         processing,
         errors: formErrors,
     } = useForm({
-        phone_number: "",
-        name: "",
-        username: "",
-        role: "",
-        email: "",
-        password: "",
-        password_confirmation: "",
-    });
+        phone_number: '',
+        name: '',
+        username: '',
+        role: '',
+        email: '',
+        password: '',
+        password_confirmation: '',
+    })
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-        post(route("register"), {
+        e.preventDefault()
+        post(route('register'), {
             onSuccess: () => {
-                setData("email", "");
-                setData("password", "");
+                setData('email', '')
+                setData('password', '')
             },
             onError: (errors) => {
-                setData("password", "");
+                console.log(errors)
+                setData('password', '')
+                setData('password_confirmation', '')
             },
-        });
-    };
+        })
+    }
     return (
         <>
             <Head title="Login" />
-            <div class="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
-                <div class="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1 flex-row-reverse">
-                    <div class="lg:w-1/2 p-6 sm:p-12">
+            <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
+                <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1 flex-row-reverse">
+                    <div className="lg:w-1/2 p-6 sm:p-12">
                         <div>
-                            <h1 class="text-2xl xl:text-3xl font-black text-center">
+                            <h1 className="text-2xl xl:text-3xl font-black text-center">
                                 Spind
                             </h1>
                         </div>
-                        <div class="mt-12 flex flex-col items-center">
-                            <h1 class="text-2xl xl:text-3xl font-extrabold">
+                        <div className="mt-12 flex flex-col items-center">
+                            <h1 className="text-2xl xl:text-3xl font-extrabold">
                                 Silahkan Daftar
                             </h1>
-                            <div class="w-full flex-1 mt-8">
-                                <div class="flex flex-col items-center">
-                                    <button class="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
-                                        <div class="bg-white p-2 rounded-full">
+                            <div className="w-full flex-1 mt-8">
+                                <div className="flex flex-col items-center">
+                                    <button className="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
+                                        <div className="bg-white p-2 rounded-full">
                                             <svg
-                                                class="w-4"
+                                                className="w-4"
                                                 viewBox="0 0 533.5 544.3"
                                             >
                                                 <path
@@ -71,30 +73,30 @@ export default function Login({ token, errors }) {
                                                 />
                                             </svg>
                                         </div>
-                                        <span class="ml-4">
+                                        <span className="ml-4">
                                             Sign Up with Google
                                         </span>
                                     </button>
                                 </div>
 
-                                <div class="my-12 border-b text-center">
-                                    <div class="leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-medium bg-white transform translate-y-1/2">
+                                <div className="my-12 border-b text-center">
+                                    <div className="leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-medium bg-white transform translate-y-1/2">
                                         Or sign up with e-mail
                                     </div>
                                 </div>
                                 <form onSubmit={handleSubmit}>
-                                    <div class="mx-auto w-full">
-                                        <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4 items-center mb-5">
+                                    <div className="mx-auto w-full">
+                                        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 items-center mb-5">
                                             <div className="">
                                                 <input
-                                                    class="w-full px-4 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                                                    className="w-full px-4 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
                                                     type="text"
                                                     placeholder="Nama"
                                                     required
                                                     onChange={(e) =>
                                                         setData(
-                                                            "name",
-                                                            e.target.value
+                                                            'name',
+                                                            e.target.value,
                                                         )
                                                     }
                                                 />
@@ -104,16 +106,16 @@ export default function Login({ token, errors }) {
                                                     </div>
                                                 )}
                                             </div>
-                                            <div class="">
+                                            <div className="">
                                                 <input
-                                                    class="w-full px-4 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                                                    className="w-full px-4 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
                                                     type="username"
                                                     placeholder="Username"
                                                     required
                                                     onChange={(e) =>
                                                         setData(
-                                                            "username",
-                                                            e.target.value
+                                                            'username',
+                                                            e.target.value,
                                                         )
                                                     }
                                                 />
@@ -124,17 +126,17 @@ export default function Login({ token, errors }) {
                                                 )}
                                             </div>
                                         </div>
-                                        <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4 items-center mb-5">
+                                        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 items-center mb-5">
                                             <div className="">
                                                 <input
-                                                    class="w-full px-4 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                                                    className="w-full px-4 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
                                                     type="text"
                                                     placeholder="No. HP"
                                                     required
                                                     onChange={(e) =>
                                                         setData(
-                                                            "phone_number",
-                                                            e.target.value
+                                                            'phone_number',
+                                                            e.target.value,
                                                         )
                                                     }
                                                 />
@@ -146,16 +148,16 @@ export default function Login({ token, errors }) {
                                                     </div>
                                                 )}
                                             </div>
-                                            <div class="">
+                                            <div className="">
                                                 <input
-                                                    class="w-full px-4 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                                                    className="w-full px-4 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
                                                     type="email"
                                                     placeholder="Email"
                                                     required
                                                     onChange={(e) =>
                                                         setData(
-                                                            "email",
-                                                            e.target.value
+                                                            'email',
+                                                            e.target.value,
                                                         )
                                                     }
                                                 />
@@ -166,17 +168,18 @@ export default function Login({ token, errors }) {
                                                 )}
                                             </div>
                                         </div>
-                                        <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4 items-center mb-5">
+                                        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 items-center mb-5">
                                             <div className="">
                                                 <input
-                                                    class="w-full px-4 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                                                    className="w-full px-4 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
                                                     type="password"
                                                     placeholder="Password"
                                                     required
+                                                    value={data.password}
                                                     onChange={(e) =>
                                                         setData(
-                                                            "password",
-                                                            e.target.value
+                                                            'password',
+                                                            e.target.value,
                                                         )
                                                     }
                                                 />
@@ -186,37 +189,47 @@ export default function Login({ token, errors }) {
                                                     </div>
                                                 )}
                                             </div>
-                                            <div class="">
+                                            <div className="">
                                                 <input
                                                     required
-                                                    class="w-full px-4 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                                                    className="w-full px-4 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
                                                     type="password"
                                                     placeholder="Confirm Password"
+                                                    value={
+                                                        data.password_confirmation
+                                                    }
                                                     onChange={(e) =>
                                                         setData(
-                                                            "password_confirmation",
-                                                            e.target.value
+                                                            'password_confirmation',
+                                                            e.target.value,
                                                         )
                                                     }
                                                 />
+                                                {formErrors.password_confirmation && (
+                                                    <div className="text-red-500 text-xs mt-1">
+                                                        {
+                                                            formErrors.password_confirmation
+                                                        }
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
-                                        <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4 items-center mb-5">
-                                            <div class="">
+                                        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 items-center mb-5">
+                                            <div className="">
                                                 {/* select */}
                                                 <select
                                                     onChange={(e) =>
                                                         setData(
-                                                            "role",
-                                                            e.target.value
+                                                            'role',
+                                                            e.target.value,
                                                         )
                                                     }
-                                                    class="w-full px-4 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                                                    className="w-full px-4 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
                                                 >
                                                     <option value="">
-                                                        Pilih
+                                                        Pilih Role
                                                     </option>
-                                                    <option value="tenant">
+                                                    <option value="user">
                                                         Penyewa
                                                     </option>
                                                     <option value="provider">
@@ -233,26 +246,26 @@ export default function Login({ token, errors }) {
 
                                         <button
                                             type="submit"
-                                            class="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                                            className="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
                                         >
                                             <svg
-                                                class="w-6 h-6 -ml-2"
+                                                className="w-6 h-6 -ml-2"
                                                 fill="none"
                                                 stroke="currentColor"
-                                                stroke-width="2"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
+                                                strokeWidth="2"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
                                             >
                                                 <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
                                                 <circle cx="8.5" cy="7" r="4" />
                                                 <path d="M20 8v6M23 11h-6" />
                                             </svg>
-                                            <span class="ml-3">Daftar</span>
+                                            <span className="ml-3">Daftar</span>
                                         </button>
-                                        <div class="mt-5 text-sm text-center">
-                                            Sudah punya akun?{" "}
+                                        <div className="mt-5 text-sm text-center">
+                                            Sudah punya akun?{' '}
                                             <Link href="/auth/login">
-                                                <span class="font-semibold text-indigo-500 hover:text-indigo-600 transition-all duration-300 ease-in-out">
+                                                <span className="font-semibold text-indigo-500 hover:text-indigo-600 transition-all duration-300 ease-in-out">
                                                     Masuk disini
                                                 </span>
                                             </Link>
@@ -262,11 +275,11 @@ export default function Login({ token, errors }) {
                             </div>
                         </div>
                     </div>
-                    <div class="flex-1 bg-indigo-100 text-center hidden lg:flex">
-                        <div class="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat bg-[url('https://storage.googleapis.com/devitary-image-host.appspot.com/15848031292911696601-undraw_designer_life_w96d.svg')]"></div>
+                    <div className="flex-1 bg-indigo-100 text-center hidden lg:flex">
+                        <div className="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat bg-[url('https://storage.googleapis.com/devitary-image-host.appspot.com/15848031292911696601-undraw_designer_life_w96d.svg')]"></div>
                     </div>
                 </div>
             </div>
         </>
-    );
+    )
 }

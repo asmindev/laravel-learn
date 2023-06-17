@@ -21,22 +21,22 @@ class StoreVenueBookingRequest extends FormRequest
      */
     public function rules(): array
     {
+
         return [
             "user_id" => ["required", "exists:users,id"],
             "venue_id" => ["required", "exists:venues,id"],
             "start_time" => [
                 "required",
                 function ($attribute, $value, $fail) {
-                    $currentTime = date('Y-m-d H:i:s', strtotime('+8 hours'));
+                    $currentTime = date('H:i', strtotime('+8 hours'));
                     $date = request()->input('date'); // Ubah 'date' sesuai dengan nama atribut tanggal Anda
 
                     if (!\DateTime::createFromFormat('Y-m-d', $value) && !\DateTime::createFromFormat('H:i', $value)) {
                         $fail('Start time must be a valid date time.');
                     }
-
                     if ($date == date('Y-m-d', strtotime('+8 hours'))) {
                         // Jika tanggal adalah hari ini
-                        if (strtotime($value) <= strtotime($currentTime)) {
+                        if (strtotime($currentTime) >= strtotime($value)) {
                             $fail('Start time must be greater than current time.');
                         }
                     }

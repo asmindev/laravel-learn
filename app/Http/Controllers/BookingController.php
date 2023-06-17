@@ -6,6 +6,7 @@ use App\Http\Requests\StoreVenueBookingRequest;
 use App\Http\Requests\UpdateVenueBookingRequest;
 use App\Models\VenueBooking;
 use App\Models\Venue;
+use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
@@ -64,6 +65,11 @@ class BookingController extends Controller
      */
     public function destroy(VenueBooking $venueBooking)
     {
-        //
+        $delete = $venueBooking->delete();
+        if ($delete) {
+            return back()->with('success', 'Venue booking deleted successfully.');
+        } else {
+            return back()->with('error', 'Venue booking deleted failed.');
+        }
     }
 }

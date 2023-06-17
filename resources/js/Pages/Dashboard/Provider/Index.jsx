@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Layout from './Components/Layout'
+import Layout from '../Components/Layout'
 import VenueDetail from './VenueDetail'
 import sortirByDate from '@/helper/sortirByDate'
 // import BreadCrumb from '@/components/BreadCrumbs'

@@ -23,6 +23,7 @@ function labelDates(dates) {
     return result[0]
 }
 function sortDatesByDateTime(dates) {
+    console.log(dates)
     dates.sort(function (a, b) {
         const dateTimeA = new Date(a.date + 'T' + a.start_time)
         const dateTimeB = new Date(b.date + 'T' + b.start_time)

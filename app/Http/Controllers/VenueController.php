@@ -110,6 +110,6 @@ class VenueController extends Controller
         // delete venue
         $venue->delete();
         // return to dashboard
-        return to_route('dashboard.all-venues')->with('success', 'Venue Berhasil dihapus');
+        return back()->with('success', 'Venue Berhasil dihapus');
     }
 }

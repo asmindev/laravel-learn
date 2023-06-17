@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react'
 import { Link } from '@inertiajs/react'
 import Layout from '@/Components/Layout'
 import Navbar from '@/Components/Navigation/Navbar'
-import Datepicker from 'react-tailwindcss-datepicker'
+// import Datepicker from 'react-tailwindcss-datepicker'
 import Lapangan from './Lapangan'
 import ModalLayout from '@/Components/ModalLayout'
 import { useForm } from '@inertiajs/react'
 import { fromTimestamp, yesterday } from '@/helper/parseTime'
 import Modal from '@/Components/Modal'
+import 'react-datepicker/dist/react-datepicker.css'
+import DatePicker from 'react-datepicker'
+import rupiahFormat from '@/helper/rupiahFormat'
 
 export default function Detail({ data, auth, errors }) {
     const venueOpen = data.open
@@ -16,6 +19,7 @@ export default function Detail({ data, auth, errors }) {
     const [modal, setModal] = useState(false)
     const [success, setSuccess] = useState(false)
     const [timeTable, setTimeTable] = useState({})
+    const [startDate, setStartDate] = useState(new Date())
 
     const { name, photo, address, capacity, price, open, close } = data
     const reviews = data.venue_reviews
@@ -30,17 +34,15 @@ export default function Detail({ data, auth, errors }) {
     })
 
     const handleDate = (e) => {
-        console.log(e)
         setDate(e.startDate)
     }
     const handleBooking = (e) => {
         e.preventDefault()
         if (auth.user) {
             setModal(true)
-
             form.setData({
                 name: auth.user.name,
-                date: date,
+                date: startDate.toISOString().split('T')[0],
                 price: data.price,
                 venue_id: data.id,
                 user_id: auth.user.id,
@@ -53,13 +55,13 @@ export default function Detail({ data, auth, errors }) {
     }
     const bookingConfirm = (e) => {
         e.preventDefault()
-        console.log(form.data)
         form.post(route('booking.store'), {
             onSuccess: () => {
                 setModal(false)
                 setSuccess(true)
             },
             onError: (err) => {
+                console.log(form.data)
                 console.log(err)
                 alert('Booking gagal')
             },
@@ -80,12 +82,11 @@ export default function Detail({ data, auth, errors }) {
             const formattedDate = `${yyyy}-${mm}-${dd}`
             setDate(formattedDate)
         }
-        console.log(timeTable)
     }, [timeTable])
 
     return (
         <Layout title="Detail Venue">
-            <Navbar auth={auth} />
+            <Navbar user={auth.user} />
             {success && <Modal data={form.data} closeModal={closeModal} />}
             <div className="relative w-full h-full lg:w-9/12 mx-auto my-8 px-8">
                 <div className="w-full h-full flex flex-col gap-4 my-16">
@@ -122,7 +123,7 @@ export default function Detail({ data, auth, errors }) {
                                     <div className="w-full h-full flex gap-4 overflow-x-auto py-2">
                                         <div>
                                             <h2 className="text-lg font-bold text-gray-700 whitespace-nowrap">
-                                                Address
+                                                Alamat
                                             </h2>
                                             <p className="text-gray-500 text-sm  whitespace-nowrap">
                                                 {address}
@@ -130,7 +131,7 @@ export default function Detail({ data, auth, errors }) {
                                         </div>
                                         <div>
                                             <h2 className="text-lg font-bold text-gray-700 whitespace-nowrap">
-                                                Capacity
+                                                Kapasitas
                                             </h2>
                                             <p className="text-gray-500 text-sm whitespace-nowrap">
                                                 {capacity}
@@ -138,15 +139,15 @@ export default function Detail({ data, auth, errors }) {
                                         </div>
                                         <div>
                                             <h2 className="text-lg font-bold text-gray-700 whitespace-nowrap">
-                                                Price
+                                                Harga
                                             </h2>
                                             <p className="text-gray-500 text-sm whitespace-nowrap">
-                                                {price}
+                                                {rupiahFormat(price)}
                                             </p>
                                         </div>
                                         <div>
                                             <h2 className="text-lg font-bold text-gray-700 whitespace-nowrap">
-                                                Open
+                                                Buka
                                             </h2>
                                             <p className="text-gray-500 text-sm whitespace-nowrap">
                                                 {open}
@@ -154,7 +155,7 @@ export default function Detail({ data, auth, errors }) {
                                         </div>
                                         <div>
                                             <h2 className="text-lg font-bold text-gray-700 whitespace-nowrap">
-                                                Close
+                                                Tutup
                                             </h2>
                                             <p className="text-gray-500 text-sm whitespace-nowrap">
                                                 {close}
@@ -164,7 +165,7 @@ export default function Detail({ data, auth, errors }) {
                                     <div className="w-full h-full flex gap-2">
                                         <div>
                                             <h2 className="text-lg font-bold text-gray-700">
-                                                Contact
+                                                Kontak
                                             </h2>
                                             <p className="text-gray-500 text-sm">
                                                 {data.contact}
@@ -174,7 +175,7 @@ export default function Detail({ data, auth, errors }) {
                                     <div className="w-full h-full flex gap-2">
                                         <div>
                                             <h2 className="text-lg font-bold text-gray-700">
-                                                Description
+                                                Deskripsi
                                             </h2>
                                             <p className="text-gray-500 text-sm">
                                                 {data.description}
@@ -184,7 +185,7 @@ export default function Detail({ data, auth, errors }) {
                                     <div className="w-full h-full flex gap-2">
                                         <div>
                                             <h2 className="text-lg font-bold text-gray-700">
-                                                Facilities
+                                                Fasilitas
                                             </h2>
                                             <div className="w-full h-full flex gap-2">
                                                 {data?.facilities ? (
@@ -202,7 +203,7 @@ export default function Detail({ data, auth, errors }) {
                                                     )
                                                 ) : (
                                                     <p className="text-gray-500 text-sm">
-                                                        No Facilities
+                                                        Tidak ada fasilitas
                                                     </p>
                                                 )}
                                             </div>
@@ -227,9 +228,9 @@ export default function Detail({ data, auth, errors }) {
                     </div>
                     <div className="w-full h-full flex flex-col gap-4 md:flex-row">
                         {/* review section */}
-                        <div className="w-full h-full flex flex-col gap-4">
+                        <div className="w-full h-full flex flex-col-reverse gap-4">
                             <h1 className="text-2xl font-bold text-gray-700">
-                                Reviews
+                                Ulasan
                             </h1>
                             <div className="w-full max-h-40 flex flex-col gap-4 overflow-auto">
                                 {reviews?.length > 0 ? (
@@ -261,13 +262,13 @@ export default function Detail({ data, auth, errors }) {
                                     ))
                                 ) : (
                                     <p className="text-gray-500 text-sm">
-                                        No Reviews
+                                        Tidak ada ulasan
                                     </p>
                                 )}
                             </div>
                             <div className="w-full h-full flex flex-col gap-4">
-                                <h1 className="text-2xl font-bold text-gray-700">
-                                    Add Review
+                                <h1 className="text-lg font-bold text-gray-700">
+                                    Tambahkan ulasan
                                 </h1>
                                 <div className="w-full h-full flex flex-col gap-4">
                                     <form>
@@ -275,7 +276,7 @@ export default function Detail({ data, auth, errors }) {
                                             <input
                                                 type="text"
                                                 className="w-full py-2 px-4 border-none focus:outline-none focus:border-none focus:ring-0"
-                                                placeholder="Add Review"
+                                                placeholder="Ulasan"
                                             />
                                             <button
                                                 type="submit"
@@ -299,7 +300,7 @@ export default function Detail({ data, auth, errors }) {
                                 Tersedia
                             </h1>
                             <div className="w-full h-full">
-                                <Datepicker
+                                {/* <Datepicker
                                     value={date}
                                     onChange={handleDate}
                                     minDate={yesterday()}
@@ -307,6 +308,15 @@ export default function Detail({ data, auth, errors }) {
                                     asSingle={
                                         data.venue_category.slug === 'lapangan'
                                     }
+                                /> */}
+                                <DatePicker
+                                    selected={startDate}
+                                    onChange={(date) => {
+                                        setStartDate(date)
+                                    }}
+                                    minDate={new Date()}
+                                    placeholderText="Pilih Tanggal"
+                                    className="w-fit h-full border border-indigo-500 rounded-lg px-4 py-2 focus:outline-none focus:border-indigo-500 focus:ring-indigo-300"
                                 />
                             </div>
                             {/* make a pad with grid */}
@@ -318,7 +328,7 @@ export default function Detail({ data, auth, errors }) {
                                             updateState={updateState}
                                             venueOpen={venueOpen}
                                             venueClose={venueClose}
-                                            date={date}
+                                            date={startDate}
                                             bookings={data.venue_bookings}
                                         />
                                         {modal && (
@@ -335,7 +345,7 @@ export default function Detail({ data, auth, errors }) {
                                                             </h1>
                                                             <p className="text-gray-500 text-sm">
                                                                 {fromTimestamp(
-                                                                    date,
+                                                                    startDate,
                                                                 )}
                                                             </p>
                                                         </div>
@@ -369,7 +379,7 @@ export default function Detail({ data, auth, errors }) {
                                                                 }
                                                                 className="w-full px-5 py-2 bg-red-500 rounded-lg text-white"
                                                             >
-                                                                Cancel
+                                                                Batal
                                                             </button>
                                                         </div>
                                                     </div>

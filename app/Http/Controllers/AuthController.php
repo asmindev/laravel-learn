@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
+// storeUserRequest
+use App\Http\Requests\StoreUserRequest;
 
 class AuthController extends Controller
 {
@@ -47,20 +49,12 @@ class AuthController extends Controller
         $csrf_token = csrf_token();
         return Inertia::render('Auth/Register', ['token' => $csrf_token]);
     }
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-
-        $validateData = $request->validate([
-            'phone_number' => 'required|unique:users',
-            'username' => 'required|unique:users',
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'role' => 'required|in:admin,provider,tenant',
-            'password' => 'required|confirmed',
-        ]);
-        $validateData['password'] = bcrypt($request->password);
-        $user = User::create($validateData);
-        if ($user) {
+        $user = $request->all();
+        $user['password'] = bcrypt($user['password']);
+        $store = User::create($user);
+        if ($store) {
             return redirect()->route('login')->with('success', 'User created successfully.');
         } else {
             return redirect()->route('register')->with('error', 'User created failed.');

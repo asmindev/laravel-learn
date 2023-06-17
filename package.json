@@ -24,6 +24,8 @@
         "dayjs": "^1.11.7",
         "framer-motion": "^10.12.16",
         "react-chartjs-2": "^5.2.0",
-        "react-tailwindcss-datepicker": "^1.6.1"
+        "react-datepicker": "^4.13.0",
+        "react-tailwindcss-datepicker": "^1.6.1",
+        "react-toastify": "^9.1.3"
     }
 }

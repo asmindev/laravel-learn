@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 const Tooltip = ({ order, paid }) => {
     return (
         <div className="absolute -top-14 left-1 bg-gray-800 text-white text-xs px-2 py-1 rounded">
@@ -21,11 +21,13 @@ export default function Lapangan({
     const [orders, setOrders] = useState([])
     const [showToolTip, setShowToolTip] = useState([])
     const [result, setResult] = useState([])
+    const [today, setToday] = useState(false)
+    const buttonRefs = useRef([])
+
+    const nowInHour = new Date().getHours()
     const hoursCalculation = (start, end, hasBooking) => {
-        // const start = "08:00:00"; but we only need the hour and minute
         const startHour = Number(start.split(':')[0])
         const endHour = parseInt(end.split(':')[0], 10) || 24
-
         const listHour = []
         for (let i = startHour; i <= endHour; i++) {
             let end = (i + 1).toString().padStart(2, '0')
@@ -54,10 +56,10 @@ export default function Lapangan({
     }
     const selectedDate = (arg) => {
         const results = []
-        const selected = new Date(arg).getTime()
+        const selected = new Date(arg).toISOString().split('T')[0]
+
         bookings.filter((booking) => {
-            const bookingDate = new Date(booking.date).getTime()
-            if (bookingDate === selected) {
+            if (booking.date === selected) {
                 const { start_time, end_time } = booking
                 const startHour = Number(start_time.split(':')[0])
                 const endHour = Number(end_time.split(':')[0])
@@ -107,28 +109,58 @@ export default function Lapangan({
             return updated
         })
     }
+    const checkIsToday = () => {
+        const today = new Date()
+        const getFullDate = today.toISOString().split('T')[0]
+        const dateToFullDate = new Date(date).toISOString().split('T')[0]
+        if (getFullDate === dateToFullDate) {
+            setToday(true)
+        } else {
+            setToday(false)
+        }
+    }
+    function className({ state, hour, index }) {
+        console.log({ available: hour.available, available_2: !hour.available })
+        let classname
+        if (!hour.available) {
+            classname = 'bg-indigo-500 text-white'
+        } else if (hour.available) {
+            classname = 'bg-white text-gray-700'
+            if (state.hour === hour.hour) {
+                classname = 'bg-indigo-500 text-white'
+            }
+            if (today) {
+                if (Number(hour.hour.split(':')[0]) <= nowInHour) {
+                    // disable button
+                    classname = 'bg-gray-300 text-gray-700 cursor-not-allowed'
+                }
+            }
+        }
+        return `${classname} border border-gray-300 rounded py-2 relative`
+    }
     useEffect(() => {
+        checkIsToday()
         const res = selectedDate(date)
+        console.log({ res })
         hoursCalculation(venueOpen, venueClose, res)
     }, [date])
     return (
         <div className="w-full grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
             {result.map((hour, index) => (
                 <button
+                    ref={(el) => (buttonRefs.current[index] = el)}
                     onClick={() => handleClick(hour)}
                     type="button"
+                    disabled={
+                        !hour.available ||
+                        Number(hour.hour.split(':')[0]) <= nowInHour
+                    }
                     onMouseEnter={() => handleMouseEnter(index)}
                     onMouseLeave={() => handleMouseLeave(index)}
                     key={index}
-                    className={`${
-                        hour.available
-                            ? state.hour === hour.hour
-                                ? 'bg-green-300 border-green-400'
-                                : 'bg-white border-gray-300 cursor-pointer hover:bg-gray-100'
-                            : hour.paid === 'paid'
-                            ? 'bg-red-300 border-rose-400 cursor-not-allowed'
-                            : 'bg-yellow-300 border-yellow-400'
-                    } border-2 text-center py-2 rounded-lg relative`}
+                    className={`
+                    ${className({ state, hour, index })}
+                    `}
                 >
                     <p>{hour.hour}</p>
                     {hour.order && showToolTip[index] && (

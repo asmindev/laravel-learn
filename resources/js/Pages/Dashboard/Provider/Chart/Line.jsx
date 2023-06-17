@@ -95,8 +95,7 @@ const data = (label, dataset) => ({
             borderColor: 'rgb(75, 192, 192)',
             borderWidth: 2,
             tension: 0.5,
-            pointRadius: 5,
-            pointHoverRadius: 10,
+            pointRadius: 0,
             fill: true,
             backgroundColor: (context) => {
                 const bgColor = [
@@ -126,7 +125,7 @@ export default function LineChart({ label, dataset }) {
         <Line
             data={data('dates', dataset)}
             options={options}
-            className="w-full max-h-fit"
+            className="w-full max-h-fit py-4"
         />
     )
 }

@@ -34,6 +34,7 @@ class DashboardController extends Controller
                 'data' => $user
             ]);
         } else {
+            dd($user->role);
             return Inertia::render('Error/403');
         }
     }
@@ -72,7 +73,7 @@ class DashboardController extends Controller
         $user = auth()->user();
         if ($user->role === 'user') {
             $user = User::with('venueBookings.venue.venueCategory')->find($user->id);
-            return Inertia::render('Dashboard/User/Profile', [
+            return Inertia::render('Dashboard/Profile', [
                 'data' => $user
             ]);
         } else if ($user->role === 'provider') {
@@ -90,6 +91,23 @@ class DashboardController extends Controller
             );
         } else {
             return Inertia::render('Error/403');
+        }
+    }
+    public function booking()
+    {
+        $user = auth()->user();
+        if ($user->role === 'user') {
+            $user = User::with('venueBookings.venue.venueCategory')->find($user->id);
+            return Inertia::render('Dashboard/User/Bookings', [
+                'user' => $user
+            ]);
+        } else {
+
+            // get the route before this route
+            $route = url()->previous();
+            return Inertia::render('Error/403', [
+                'route' => $route
+            ]);
         }
     }
 }

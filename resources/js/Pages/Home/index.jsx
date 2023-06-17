@@ -18,7 +18,7 @@ export default function index({ auth, data }) {
     }
     return (
         <Layout title="Home">
-            <Navbar auth={auth} />
+            <Navbar user={auth.user} />
             <div className="w-full h-full md:w-11/12 lg:w-10/12 mx-auto my-8">
                 {/* jumbotron */}
                 <div className="relative w-full h-full dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">

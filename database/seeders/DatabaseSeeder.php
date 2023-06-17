@@ -38,6 +38,11 @@ class DatabaseSeeder extends Seeder
             'email' => 'provider@gmail.com',
             'role' => 'provider',
         ]);
+        User::factory()->create([
+            'name' => 'User',
+            'email' => 'user@tes.com',
+            'role' => 'user',
+        ]);
         // make 10 venues
         Venue::factory()->count(10)->create([
             'open' => '08:00',

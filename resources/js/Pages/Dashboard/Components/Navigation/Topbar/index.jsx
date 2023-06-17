@@ -55,7 +55,32 @@ export default function index({ user }) {
                 <div className="flex items-center gap-4">
                     <h1 className="text-2xl font-bold text-gray-700">Spind</h1>
                 </div>
-                <div className="flex flex-col justify-center items-center">
+                <div className="flex justify-center items-center gap-4">
+                    <div className="flex flex-col md:flex-row md:mx-6">
+                        <Link
+                            className="my-1 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 md:mx-4 md:my-0"
+                            href="/"
+                        >
+                            Home
+                        </Link>
+                        <Link
+                            className="my-1 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 md:mx-4 md:my-0"
+                            href="#"
+                        >
+                            About
+                        </Link>
+                        <Link
+                            className="my-1 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 md:mx-4 md:my-0"
+                            href="#"
+                        >
+                            Contact
+                        </Link>
+                    </div>
+                    <div className="w-fit">
+                        <h1 className="text-sm font-semibold text-gray-700">
+                            {user.name}
+                        </h1>
+                    </div>
                     <div className="w-10 h-10 rounded-full bg-gray-100">
                         <button className="w-full h-full" onClick={displayMenu}>
                             <img

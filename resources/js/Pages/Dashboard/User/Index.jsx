@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Layout from '@/Components/Layout'
+import Layout from '../Components/Layout'
 const Profile = ({ data }) => {
     const booking = data.venue_bookings
     const filterBookings = () => {
@@ -11,29 +11,28 @@ const Profile = ({ data }) => {
         return result
     }
     const [bookings, setBookings] = useState(filterBookings())
-    // console.log(booking)
     useEffect(() => {}, [])
 
     return (
         <Layout user={data} title={`Profile ${data.name}`}>
             <div className="w-full mx-auto p-8 min-h-screen bg-zinc-100">
-                <div className="mt-8 w-full md:w-1/2 mx-auto">
+                <div className="mt-8 w-full mx-auto">
                     <h1 className="my-2 text-2xl font-bold text-gray-800">
                         Profile
                     </h1>
                 </div>
 
-                <div className="overflow-hidden rounded border  bg-white shadow w-full md:w-1/2 mx-auto">
+                <div className="overflow-hidden rounded border  bg-white shadow w-full">
                     <div className="relative z-20 h-32 md:h-64 overflow-hidden">
                         <img
-                            src={`https://picsum.photos/seed/${data.id}/1800`}
+                            src={`${window.location.origin}/storage/${data.profile_picture}`}
                             alt="profile cover"
                             className="h-65 w-full rounded-tl-sm rounded-tr-sm object-cover object-center"
                         />
                         <div className="absolute bottom-1 right-1 z-[9999999] sm:bottom-4 sm:right-4">
                             <label
                                 htmlFor="cover"
-                                className="flex cursor-pointer items-center justify-center gap-2 rounded bg-red-500 py-1 px-2 text-sm font-medium text-white hover:bg-opacity-80 sm:px-4"
+                                className="flex cursor-pointer items-center gap-2 rounded bg-red-500 py-1 px-2 text-sm font-medium text-white hover:bg-opacity-80 sm:px-4"
                             >
                                 <input
                                     type="file"
@@ -62,105 +61,79 @@ const Profile = ({ data }) => {
                         </div>
                     </div>
 
-                    <div className="flex justify-center -mt-8">
-                        <div className="relative z-50">
+                    <div className="flex flex-col w-fit pl-8 -mt-8">
+                        <div className="w-fit relative z-50 border-4 shadow-xl rounded-full overflow-hidden">
                             <img
-                                src={`https://picsum.photos/seed/${data.id}/1800`}
+                                src={`${window.location.origin}/storage/${data.profile_picture}`}
                                 alt="profile picture"
-                                className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover"
+                                className="w-24 h-24 md:w-32 md:h-32 object-cover"
                             />
-                            <div className="absolute bottom-0 right-0 z-10">
-                                <label
-                                    htmlFor="profile"
-                                    className="flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-full bg-primary text-white cursor-pointer"
-                                >
-                                    <input
-                                        type="file"
-                                        name="profile"
-                                        id="profile"
-                                        className="sr-only"
-                                    />
-                                    <svg
-                                        className="fill-current"
-                                        width="20"
-                                        height="20"
-                                        viewBox="0 0 20 20"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            fillRule="evenodd"
-                                            clipRule="evenodd"
-                                            d="M17.5 2.5C17.5 2.22386 17.2761 2 17 2C16.7239 2 16.5 2.22386 16.5 2.5V4.5H3.5V2.5C3.5 2.22386 3.27614 2 3 2C2.72386 2 2.5 2.22386 2.5 2.5V17.5C2.5 17.7761 2.72386 18 3 18H17C17.2761 18 17.5 17.7761 17.5 17.5V2.5ZM15.5 6C15.5 5.72386 15.2761 5.5 15 5.5H5C4.72386 5.5 4.5 5.72386 4.5 6V7.5H15.5V6ZM15.5 9C15.5 8.72386 15.2761 8.5 15 8.5H5C4.72386 8.5 4.5 8.72386 4.5 9V10.5H15.5V9ZM15.5 12C15.5 11.7239 15.2761 11.5 15 11.5H5C4.72386 11.5 4.5 11.7239 4.5 12V13.5H15.5V12Z"
-                                        />
-                                    </svg>
-                                </label>
-                            </div>
                         </div>
-                    </div>
-                    <div className="mt-4 flex justify-center">
-                        <div className="p-4">
-                            <h2 className="text-2xl font-semibold text-primary dark:text-primarydark">
-                                {data.name}
-                            </h2>
-                            <div className="mt-2">
-                                <div className="flex items-center gap-2 mt-2">
-                                    <svg
-                                        className="w-4 h-4 text-gray-500"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            fill="currentColor"
-                                            d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM12 20C7.58172 20 4 16.4183 4 12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12C20 16.4183 16.4183 20 12 20Z"
-                                        />
-                                        <path
-                                            fill="currentColor"
-                                            d="M12 17C10.3431 17 9 15.6569 9 14C9 12.3431 10.3431 11 12 11C13.6569 11 15 12.3431 15 14C15 15.6569 13.6569 17 12 17ZM12 12C10.8954 12 10 12.8954 10 14C10 15.1046 10.8954 16 12 16C13.1046 16 14 15.1046 14 14C14 12.8954 13.1046 12 12 12Z"
-                                        />
-                                    </svg>
-                                    <p className="text-gray-600 dark:text-gray-400">
-                                        {data.email}
-                                    </p>
-                                </div>
-                                <div className="flex items-center gap-2 mt-2">
-                                    <svg
-                                        className="w-4 h-4 text-gray-500"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            fill="currentColor"
-                                            d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM12 20C7.58172 20 4 16.4183 4 12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12C20 16.4183 16.4183 20 12 20Z"
-                                        />
-                                        <path
-                                            fill="currentColor"
-                                            d="M12 17C10.3431 17 9 15.6569 9 14C9 12.3431 10.3431 11 12 11C13.6569 11 15 12.3431 15 14C15 15.6569 13.6569 17 12 17ZM12 12C10.8954 12 10 12.8954 10 14C10 15.1046 10.8954 16 12 16C13.1046 16 14 15.1046 14 14C14 12.8954 13.1046 12 12 12Z"
-                                        />
-                                    </svg>
-                                    <p className="text-gray-600 dark:text-gray-400">
-                                        {data.username}
-                                    </p>
-                                </div>
-                                <div className="flex items-center gap-2 mt-2">
-                                    <svg
-                                        className="w-4 h-4 text-gray-500"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            fill="currentColor"
-                                            d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM12 20C7.58172 20 4 16.4183 4 12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12C20 16.4183 16.4183 20 12 20Z"
-                                        />
-                                        <path
-                                            fill="currentColor"
-                                            d="M12 17C10.3431 17 9 15.6569 9 14C9 12.3431 10.3431 11 12 11C13.6569 11 15 12.3431 15 14C15 15.6569 13.6569 17 12 17ZM12 12C10.8954 12 10 12.8954 10 14C10 15.1046 10.8954 16 12 16C13.1046 16 14 15.1046 14 14C14 12.8954 13.1046 12 12 12Z"
-                                        />
-                                    </svg>
-                                    <p className="text-gray-600 dark:text-gray-400">
-                                        {data.phone_number}
-                                    </p>
+                        <div className="mt-4">
+                            <div className="p-4">
+                                <h2 className="text-2xl font-semibold text-primary dark:text-primarydark">
+                                    {data.name}
+                                </h2>
+                                <div className="mt-2">
+                                    <div className="flex items-center gap-2 mt-2">
+                                        <svg
+                                            className="w-4 h-4 text-gray-500"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                fill="currentColor"
+                                                d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM12 20C7.58172 20 4 16.4183 4 12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12C20 16.4183 16.4183 20 12 20Z"
+                                            />
+                                            <path
+                                                fill="currentColor"
+                                                d="M12 17C10.3431 17 9 15.6569 9 14C9 12.3431 10.3431 11 12 11C13.6569 11 15 12.3431 15 14C15 15.6569 13.6569 17 12 17ZM12 12C10.8954 12 10 12.8954 10 14C10 15.1046 10.8954 16 12 16C13.1046 16 14 15.1046 14 14C14 12.8954 13.1046 12 12 12Z"
+                                            />
+                                        </svg>
+                                        <p className="text-gray-600 dark:text-gray-400">
+                                            {data.email}
+                                        </p>
+                                    </div>
+                                    <div className="flex items-center gap-2 mt-2">
+                                        <svg
+                                            className="w-4 h-4 text-gray-500"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                fill="currentColor"
+                                                d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM12 20C7.58172 20 4 16.4183 4 12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12C20 16.4183 16.4183 20 12 20Z"
+                                            />
+                                            <path
+                                                fill="currentColor"
+                                                d="M12 17C10.3431 17 9 15.6569 9 14C9 12.3431 10.3431 11 12 11C13.6569 11 15 12.3431 15 14C15 15.6569 13.6569 17 12 17ZM12 12C10.8954 12 10 12.8954 10 14C10 15.1046 10.8954 16 12 16C13.1046 16 14 15.1046 14 14C14 12.8954 13.1046 12 12 12Z"
+                                            />
+                                        </svg>
+                                        <p className="text-gray-600 dark:text-gray-400">
+                                            {data.username}
+                                        </p>
+                                    </div>
+                                    <div className="flex items-center gap-2 mt-2">
+                                        <svg
+                                            className="w-4 h-4 text-gray-500"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                fill="currentColor"
+                                                d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM12 20C7.58172 20 4 16.4183 4 12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12C20 16.4183 16.4183 20 12 20Z"
+                                            />
+                                            <path
+                                                fill="currentColor"
+                                                d="M12 17C10.3431 17 9 15.6569 9 14C9 12.3431 10.3431 11 12 11C13.6569 11 15 12.3431 15 14C15 15.6569 13.6569 17 12 17ZM12 12C10.8954 12 10 12.8954 10 14C10 15.1046 10.8954 16 12 16C13.1046 16 14 15.1046 14 14C14 12.8954 13.1046 12 12 12Z"
+                                            />
+                                        </svg>
+                                        <p className="text-gray-600 dark:text-gray-400">
+                                            {data.phone_number}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     {/* bookings order */}
                     <div className="mt-4 mx-4">
                         <h2 className="text-2xl font-semibold text-gray-600">

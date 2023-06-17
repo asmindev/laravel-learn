@@ -33,9 +33,10 @@ Route::get('/auth/logout', [AuthController::class, 'logout'])->middleware('auth'
 
 Route::resource('venue', VenueController::class);
 Route::resource('booking', BookingController::class);
-Route::resource('user', UserController::class);
-
+Route::resource('user', UserController::class)->except(['create', 'store', 'show']);
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
 Route::get('/dashboard/all-venues', [DashboardController::class, 'allVenues'])->middleware('auth')->name('dashboard.all-venues');
 Route::get('/dashboard/all-users', [DashboardController::class, 'allUsers'])->middleware('auth')->name('dashboard.all-users');
 Route::get('/dashboard/profile', [DashboardController::class, 'profile'])->middleware('auth')->name('dashboard.profile');
+Route::get('/dashboard/bookings', [DashboardController::class, 'booking'])->middleware('auth')->name('dashboard.booking');
+// delete booking

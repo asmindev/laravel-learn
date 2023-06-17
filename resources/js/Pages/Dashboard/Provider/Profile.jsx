@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import Layout from './Components/Layout'
+import Layout from '../Components/Layout'
 import { useForm, router } from '@inertiajs/react'
 import ModalLayout from '@/Components/ModalLayout'
 import { AnimatePresence } from 'framer-motion'

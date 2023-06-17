@@ -70,10 +70,11 @@ export default function index(props) {
         if (!url.startsWith('http')) {
             url = `${window.location.origin}/storage/${url}`
         }
-        urlToBlob('https://api.multiavatar.com/admin.png').then((blob) => {
+        urlToBlob(url).then((blob) => {
             console.log(blob)
             const file = new File([blob], 'venue.jpg', { type: blob.type })
             setData('photo', file)
+            imageRef.current.src = URL.createObjectURL(file)
         })
         if (props.errors) {
             console.log(props.errors)

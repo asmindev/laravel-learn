@@ -50,7 +50,9 @@ export default function Profile(props) {
         setShowModal(!showModal)
     }
     const urlToBlob = async (url) => {
-        const response = await fetch(url)
+        const response = await fetch(url, {
+            mode: 'no-cors',
+        })
         const blob = await response.blob()
         return blob
     }

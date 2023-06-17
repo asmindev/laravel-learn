@@ -59,8 +59,7 @@ const Menu = ({ user }) => {
         </AnimatePresence>
     )
 }
-export default function Navbar({ auth }) {
-    const { user } = auth
+export default function Navbar({ user }) {
     const [showMenu, setShowMenu] = useState(false)
     const displayMenu = () => {
         setShowMenu(!showMenu)
